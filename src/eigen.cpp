@@ -8,6 +8,7 @@ extern "C" {
 #include "lunar.hpp"
 
 #include "angleaxisf.hpp"
+#include "quaternionf.hpp"
 
 #include "matrix2f.hpp"
 #include "matrix3f.hpp"
@@ -62,6 +63,7 @@ static luaL_Reg luaeigen_lib[] = {
 
 extern "C" int luaopen_eigen(lua_State *L) {
 	using LuaEigen::AngleAxisf;
+	using LuaEigen::Quaternionf;
 
 	using LuaEigen::Matrix2f;
 	using LuaEigen::Matrix3f;
@@ -76,6 +78,7 @@ extern "C" int luaopen_eigen(lua_State *L) {
 	luaL_setfuncs(L, luaeigen_lib, 0);
 
 	Lunar<AngleAxisf>::Register(L);
+	Lunar<Quaternionf>::Register(L);
 
 	Lunar<Matrix2f>::Register(L);
 	Lunar<Matrix3f>::Register(L);
