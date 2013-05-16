@@ -22,7 +22,19 @@ else ()
 	endif ()
 endif ()
 
-find_package(Eigen3 3.1 REQUIRED)
+find_package(Eigen3 3.1)
+if (NOT EIGEN3_FOUND)
+	include(ExternalProject)
+	ExternalProject_add(extern_eigen
+		HG_REPOSITORY "https://bitbucket.org/eigen/eigen"
+		HG_TAG "3.1.3"
+		DOWNLOAD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lib/eigen"
+		SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lib/eigen"
+		INSTALL_COMMAND true
+	)
+	set(EIGEN3_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lib/eigen")
+	find_package_message(Eigen3 "Using local Eigen3 in lib/eigen ..." "[${EIGEN3_INCLUDE_DIR}]")
+endif ()
 
 include_directories(
 	${CMAKE_SOURCE_DIR}/src
@@ -55,15 +67,16 @@ add_library(luaeigen SHARED
 
 	lib/lextlib/lextlib.c
 )
+add_dependencies(luaeigen
+	extern_eigen
+)
 
 add_library(eigen MODULE
 	src/eigen.cpp
 )
-
 target_link_libraries(eigen
 	luaeigen
 )
-
 set_target_properties(eigen
 	PROPERTIES PREFIX ""
 )
