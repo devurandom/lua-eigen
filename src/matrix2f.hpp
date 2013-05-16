@@ -13,6 +13,8 @@ namespace LuaEigen {
 	struct Matrix2f : public Eigen::Matrix2f {
 		using Eigen::Matrix2f::data;
 		using Eigen::Matrix2f::setZero;
+		using Eigen::Matrix2f::inverse;
+		using Eigen::Matrix2f::transpose;
 
 		Matrix2f(lua_State *L);
 		Matrix2f(const Eigen::Matrix2f &o);
@@ -28,6 +30,9 @@ namespace LuaEigen {
 
 		int data(lua_State *L);
 		int setZero(lua_State *L);
+
+		int inverse(lua_State *L);
+		int transpose(lua_State *L);
 
 		LUNAR_DECLARE(Matrix2f);
 	};

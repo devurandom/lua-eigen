@@ -2,6 +2,8 @@
 
 #include <sstream>
 
+#include <Eigen/Dense>
+
 #include "vector2f.hpp"
 
 namespace LuaEigen {
@@ -122,6 +124,18 @@ namespace LuaEigen {
 	}
 
 
+	int Matrix2f::inverse(lua_State *L) {
+		Lunar<Matrix2f>::push(L, new Matrix2f(inverse()), true);
+		return 1;
+	}
+
+
+	int Matrix2f::transpose(lua_State *L) {
+		Lunar<Matrix2f>::push(L, new Matrix2f(transpose()), true);
+		return 1;
+	}
+
+
 	LUNAR_DEFINE(Matrix2f) {
 		LUNAR_METHOD(Matrix2f, __add),
 		LUNAR_METHOD(Matrix2f, __sub),
@@ -130,6 +144,8 @@ namespace LuaEigen {
 		LUNAR_METHOD(Matrix2f, __tostring),
 		LUNAR_METHOD(Matrix2f, data),
 		LUNAR_METHOD(Matrix2f, setZero),
+		LUNAR_METHOD(Matrix2f, inverse),
+		LUNAR_METHOD(Matrix2f, transpose),
 		{NULL, NULL}
 	};
 }
