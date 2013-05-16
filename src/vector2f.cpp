@@ -106,7 +106,7 @@ namespace LuaEigen {
 
 
 	int Vector2f::__tostring(lua_State *L) {
-		lua_pushfstring(L, "(%f, %f, %f)", x(), y(), z());
+		lua_pushfstring(L, "(%f, %f)", x(), y());
 		return 1;
 	}
 
