@@ -1,0 +1,9 @@
+[submodule "cmake"]
+	path = cmake
+	url = https://git.kynes.de/cmake.git
+[submodule "lib/lextlib"]
+	path = lib/lextlib
+	url = https://github.com/devurandom/lextlib.git
+[submodule "lib/lunar"]
+	path = lib/lunar
+	url = https://github.com/devurandom/lunar.git
