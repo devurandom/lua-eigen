@@ -1,11 +1,11 @@
 extern "C" {
 #include <lua.h>
-#include "lextlib.h"
+#include <lextlib.h>
 }
 
-#include <Eigen/Geometry>
+#include <lunar.hpp>
 
-#include "lunar.hpp"
+#include <Eigen/Geometry>
 
 #include "angleaxisf.hpp"
 #include "quaternionf.hpp"

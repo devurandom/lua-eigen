@@ -1,8 +1,11 @@
 extern "C" {
 #include <lua.h>
+#include <lauxlib.h>
+#include <lextlib.h>
+#include <lextlib_lua52.h>
 }
 
-#include "lunar.hpp"
+#include <lunar.hpp>
 
 #include "matrix4f.hpp"
 
@@ -87,7 +90,7 @@ static luaL_Reg eigen_util_lib[] = {
 
 
 extern "C" int luaopen_eigen_util(lua_State *L) {
-	lua_newlib(L, eigen_util_lib);
+	luaL_newlib(L, eigen_util_lib);
 
 	return 1;
 }

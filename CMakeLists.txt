@@ -7,13 +7,23 @@ set(CMAKE_MODULE_PATH
 	${CMAKE_CURRENT_SOURCE_DIR}/cmake
 )
 
+
+find_package(Eigen3 3.1 REQUIRED)
+
 include(FindPkgConfig)
 
-set(USE_LUAJIT False CACHE BOOL "Use LuaJIT 2.0 instead of Lua 5.2")
+set(USE_LUAJIT False CACHE BOOL "Build against LuaJIT 2.0 instead of Lua 5.2")
 if (USE_LUAJIT)
-	pkg_check_modules(LUAJIT luajit>=2.0)
+	pkg_check_modules(LUAJIT luajit>=2.0.1)
 	if (NOT LUAJIT_FOUND)
-		pkg_check_modules(LUAJIT luajit-2.0>=2.0 REQUIRED)
+		pkg_check_modules(LUAJIT luajit-2.0>=2.0.1)
+		if (NOT LUAJIT_FOUND)
+			if (LUAJIT_INCLUDE_DIRS AND LUAJIT_LIBRARIES)
+				find_package_message(LUAJIT "Using local LuaJIT ..." "[${LUAJIT_INCLUDE_DIRS}][${LUAJIT_LIBRARIES}]")
+			else ()
+				message(FATAL_ERROR "Please provide a local LuaJIT")
+			endif ()
+		endif ()
 	endif ()
 	set(LUA_INCLUDE_DIRS ${LUAJIT_INCLUDE_DIRS})
 	set(LUA_LIBRARIES ${LUAJIT_LIBRARIES})
@@ -25,26 +35,25 @@ else ()
 	endif ()
 endif ()
 
-find_package(Eigen3 3.1)
-if (NOT EIGEN3_FOUND)
-	include(ExternalProject)
-	ExternalProject_add(extern_eigen
-		HG_REPOSITORY "https://bitbucket.org/eigen/eigen"
-		HG_TAG "3.1.3"
-		DOWNLOAD_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lib/eigen"
-		SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lib/eigen"
-		INSTALL_COMMAND true
-	)
-	set(EIGEN3_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lib/eigen")
-	find_package_message(Eigen3 "Using local Eigen3 in lib/eigen ..." "[${EIGEN3_INCLUDE_DIR}]")
+if (LEXTLIB_INCLUDE_DIRS AND LEXTLIB_LIBRARIES)
+	find_package_message(LEXTLIB "Using local lextlib ..." "[${LEXTLIB_INCLUDE_DIRS}][${LEXTLIB_LIBRARIES}]")
+else ()
+	message(FATAL_ERROR "Please provide a local lextlib")
 endif ()
+
+if (LUNAR_INCLUDE_DIRS)
+	find_package_message(LUNAR "Using local Lunar ..." "[${LUNAR_INCLUDE_DIRS}]")
+else ()
+	message(FATAL_ERROR "Please provide a local Lunar")
+endif ()
+
 
 include_directories(
 	${CMAKE_SOURCE_DIR}/src
-	${CMAKE_SOURCE_DIR}/lib/lextlib
-	${CMAKE_SOURCE_DIR}/lib/lunar
 	${LUA_INCLUDE_DIRS}
 	${EIGEN3_INCLUDE_DIR}
+	${LEXTLIB_INCLUDE_DIRS}
+	${LUNAR_INCLUDE_DIRS}
 )
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror")
@@ -56,7 +65,10 @@ include(UseCXX11)
 include(UseDebug)
 include(UseOptimise)
 
-add_library(luaeigen SHARED
+add_library(eigen MODULE
+	src/eigen.cpp
+	src/util.cpp
+
 	src/angleaxisf.cpp
 	src/quaternionf.cpp
 
@@ -67,18 +79,10 @@ add_library(luaeigen SHARED
 	src/vector2f.cpp
 	src/vector3f.cpp
 	src/vector4f.cpp
-
-	lib/lextlib/lextlib.c
-)
-add_dependencies(luaeigen
-	extern_eigen
 )
 
-add_library(eigen MODULE
-	src/eigen.cpp
-)
 target_link_libraries(eigen
-	luaeigen
+	${LEXTLIB_LIBRARIES}
 )
 set_target_properties(eigen
 	PROPERTIES PREFIX ""

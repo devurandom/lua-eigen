@@ -4,6 +4,7 @@
 
 #include "matrix4f.hpp"
 
+
 namespace LuaEigen {
 	Vector4f::Vector4f(lua_State *L)
 	{}

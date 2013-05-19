@@ -2,6 +2,7 @@
 
 #include "matrix2f.hpp"
 
+
 namespace LuaEigen {
 	Vector2f::Vector2f(lua_State *L)
 	{}

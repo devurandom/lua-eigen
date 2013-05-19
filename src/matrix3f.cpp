@@ -6,6 +6,7 @@
 
 #include "vector3f.hpp"
 
+
 namespace LuaEigen {
 	Matrix3f::Matrix3f(lua_State *L)
 	{}

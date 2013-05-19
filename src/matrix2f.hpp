@@ -7,7 +7,8 @@ extern "C" {
 #include <lua.h>
 }
 
-#include "lunar.hpp"
+#include <lunar.hpp>
+
 
 namespace LuaEigen {
 	struct Matrix2f : public Eigen::Matrix2f {

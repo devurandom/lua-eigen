@@ -7,7 +7,8 @@ extern "C" {
 #include <lua.h>
 }
 
-#include "lunar.hpp"
+#include <lunar.hpp>
+
 
 namespace LuaEigen {
 	struct Vector3f : public Eigen::Vector3f {
