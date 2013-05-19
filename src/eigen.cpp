@@ -19,6 +19,9 @@ extern "C" {
 #include "vector4f.hpp"
 
 
+extern "C" int luaopen_eigen_util(lua_State *L);
+
+
 static int AffineTranslation3f(lua_State *L) {
 	using LuaEigen::Matrix4f;
 	using LuaEigen::Vector3f;
@@ -73,7 +76,8 @@ extern "C" int luaopen_eigen(lua_State *L) {
 	using LuaEigen::Vector3f;
 	using LuaEigen::Vector4f;
 
-	lua_newtable(L); // module table
+	lua_newtable(L);
+	int l_eigen = lua_gettop(L);
 
 	luaL_setfuncs(L, luaeigen_lib, 0);
 
@@ -87,6 +91,9 @@ extern "C" int luaopen_eigen(lua_State *L) {
 	Lunar<Vector2f>::Register(L);
 	Lunar<Vector3f>::Register(L);
 	Lunar<Vector4f>::Register(L);
+
+	luaopen_eigen_util(L);
+	lua_setfield(L, l_eigen, "util");
 
 	return 1;
 }
