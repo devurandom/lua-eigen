@@ -72,13 +72,7 @@ add_library(eigen MODULE
 	src/angleaxisf.cpp
 	src/quaternionf.cpp
 
-	src/matrix2f.cpp
-	src/matrix3f.cpp
-	src/matrix4f.cpp
-
-	src/vector2f.cpp
-	src/vector3f.cpp
-	src/vector4f.cpp
+	src/matrix.cpp
 )
 
 target_link_libraries(eigen

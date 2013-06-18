@@ -1,7 +1,7 @@
 #include "angleaxisf.hpp"
 
 #include "quaternionf.hpp"
-#include "vector3f.hpp"
+#include "matrix.hpp"
 
 namespace LuaEigen {
 	AngleAxisf::AngleAxisf(lua_State *L)

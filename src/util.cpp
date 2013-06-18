@@ -7,7 +7,7 @@ extern "C" {
 
 #include <lunar.hpp>
 
-#include "matrix4f.hpp"
+#include "matrix.hpp"
 
 
 static float deg2rad(float deg) {

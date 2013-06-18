@@ -1,6 +1,6 @@
 #include "quaternionf.hpp"
 
-#include "vector3f.hpp"
+#include "matrix.hpp"
 
 namespace LuaEigen {
 	Quaternionf::Quaternionf(lua_State *L)

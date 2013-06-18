@@ -10,13 +10,7 @@ extern "C" {
 #include "angleaxisf.hpp"
 #include "quaternionf.hpp"
 
-#include "matrix2f.hpp"
-#include "matrix3f.hpp"
-#include "matrix4f.hpp"
-
-#include "vector2f.hpp"
-#include "vector3f.hpp"
-#include "vector4f.hpp"
+#include "matrix.hpp"
 
 
 extern "C" int luaopen_eigen_util(lua_State *L);
