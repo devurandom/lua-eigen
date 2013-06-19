@@ -7,6 +7,9 @@
 	LUNAR_METHOD(type, __div), \
 	LUNAR_METHOD(type, __unm), \
 	LUNAR_METHOD(type, __tostring), \
+	LUNAR_METHOD(type, rows), \
+	LUNAR_METHOD(type, cols), \
+	LUNAR_METHOD(type, size), \
 	LUNAR_METHOD(type, data), \
 	LUNAR_METHOD(type, setZero)
 

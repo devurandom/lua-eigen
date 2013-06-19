@@ -181,6 +181,21 @@ namespace LuaEigen {
 		NAMED_COORD(w)
 #undef NAMED_COORD
 
+		int rows(lua_State *L) {
+			lua_pushinteger(L, rows());
+			return 1;
+		}
+
+		int cols(lua_State *L) {
+			lua_pushinteger(L, cols());
+			return 1;
+		}
+
+		int size(lua_State *L) {
+			lua_pushinteger(L, size());
+			return 1;
+		}
+
 		int data(lua_State *L) {
 			lua_pushlightuserdata(L, data());
 			return 1;
