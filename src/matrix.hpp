@@ -238,6 +238,12 @@ namespace LuaEigen {
 			return 1;
 		}
 
+		int segment3(lua_State *L) {
+			int base_row = luaL_checkinteger(L, 2);
+			Lunar<Matrix<Scalar, 3, 1>>::push(L, new Matrix<Scalar, 3, 1>(Base::template segment<3>(base_row)), true);
+			return 1;
+		}
+
 		LUNAR_DECLARE(Type);
 	};
 

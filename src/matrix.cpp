@@ -22,7 +22,8 @@
 	MATRIXBASE_METHODS(type), \
 	LUNAR_METHOD(type, dot), \
 	LUNAR_METHOD(type, norm), \
-	LUNAR_METHOD(type, squaredNorm)
+	LUNAR_METHOD(type, squaredNorm), \
+	LUNAR_METHOD(type, segment3)
 
 
 namespace LuaEigen {
