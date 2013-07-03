@@ -45,10 +45,14 @@ namespace LuaEigen {
 		int init(lua_State *L) {
 			int l_nargs = lua_gettop(L);
 
-			if (l_nargs == 1) {
+			Type *o = Lunar<Type>::test(L, 2);
+			if (o != nullptr) {
+				*this = *o;
+			}
+			else if (l_nargs == 1) {
 				setZero();
 			}
-			if (l_nargs-1 == size()) {
+			else if (l_nargs-1 == size()) {
 				for (int i = 2; i <= l_nargs; i++) {
 					int isnum = false;
 					float n = lua_tonumberx(L, i, &isnum);
@@ -57,6 +61,9 @@ namespace LuaEigen {
 					}
 					(*this)((i-2)/cols(),(i-2)%cols()) = n;
 				}
+			}
+			else {
+				return luaL_error(L, "Unexpected number of arguments");
 			}
 
 			return 0;
