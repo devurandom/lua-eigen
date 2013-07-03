@@ -145,17 +145,22 @@ namespace LuaEigen {
 		int __tostring(lua_State *L) {
 			/* Write vectors more nicely */
 			if (ColsAtCompileTime == 1) {
-				lua_pushfstring(L, "(%f", (*this)(0,0));
+				lua_pushliteral(L, "(");
+				if (rows() > 0) {
+					lua_pushfstring(L, "%f", (*this)(0,0));
+				}
 				for (int i = 1; i < rows(); i++) {
 					lua_pushfstring(L, ", %f", (*this)(i,0));
 				}
 				lua_pushliteral(L, ")");
-				lua_concat(L, size()+1);
+				lua_concat(L, size()+2);
 				return 1;
 			}
 
 			for (int i = 0; i < rows(); i++) {
-				lua_pushfstring(L, "%f", (*this)(i,0));
+				if (cols() > 0) {
+					lua_pushfstring(L, "%f", (*this)(i,0));
+				}
 				for (int j = 1; j < cols(); j++) {
 					lua_pushfstring(L, ", %f", (*this)(i,j));
 				}
