@@ -149,6 +149,11 @@ namespace LuaEigen {
 			return 1;
 		}
 
+		int __len(lua_State *L) {
+			lua_pushinteger(L, size());
+			return 1;
+		}
+
 		int __tostring(lua_State *L) {
 			/* Write vectors more nicely */
 			if (ColsAtCompileTime == 1) {

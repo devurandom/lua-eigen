@@ -6,6 +6,7 @@
 	LUNAR_METHOD(type, __mul), \
 	LUNAR_METHOD(type, __div), \
 	LUNAR_METHOD(type, __unm), \
+	LUNAR_METHOD(type, __len), \
 	LUNAR_METHOD(type, __tostring), \
 	LUNAR_METHOD(type, rows), \
 	LUNAR_METHOD(type, cols), \
