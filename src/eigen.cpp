@@ -72,6 +72,9 @@ extern "C" int luaopen_eigen(lua_State *L) {
 	using LuaEigen::Vector4f;
 	using LuaEigen::VectorXf;
 
+	using LuaEigen::SegmentXf2;
+	using LuaEigen::SegmentXf3;
+
 	lua_newtable(L);
 	int l_eigen = lua_gettop(L);
 
@@ -89,6 +92,9 @@ extern "C" int luaopen_eigen(lua_State *L) {
 	Lunar<Vector3f>::Register(L);
 	Lunar<Vector4f>::Register(L);
 	Lunar<VectorXf>::Register(L);
+
+	Lunar<SegmentXf2>::Register(L);
+	Lunar<SegmentXf3>::Register(L);
 
 	luaopen_eigen_util(L);
 	lua_setfield(L, l_eigen, "util");

@@ -13,6 +13,39 @@ extern "C" {
 
 namespace LuaEigen {
 	template<typename _Scalar, int _Rows, int _Cols>
+	class Matrix;
+
+	template<typename _VectorType, int _Size>
+	class Segment {
+		typedef Segment<_VectorType, _Size> Type;
+		typedef Matrix<typename _VectorType::Scalar, _Size, 1> SegmentType;
+
+	public:
+		Segment(lua_State *L) {assert(false);}
+		Segment(_VectorType *vector)
+		: _vector(vector)
+		{}
+
+		int __index(lua_State *L) {
+			int base_row = luaL_checkinteger(L, 2);
+			Lunar<SegmentType>::push(L, new SegmentType(_vector->template segment<_Size>(base_row-1)), true);
+			return 1;
+		}
+
+		int __newindex(lua_State *L) {
+			int base_row = luaL_checkinteger(L, 2);
+			SegmentType *value = Lunar<SegmentType>::check(L, 3);
+			_vector->template segment<_Size>(base_row-1) = *value;
+			return 0;
+		}
+
+		LUNAR_DECLARE(Type);
+
+	private:
+		_VectorType *_vector;
+	};
+
+	template<typename _Scalar, int _Rows, int _Cols>
 	class Matrix : public Eigen::Matrix<_Scalar, _Rows, _Cols> {
 		typedef Matrix<_Scalar, _Rows, _Cols> Type;
 		typedef Eigen::Matrix<_Scalar, _Rows, _Cols> Base;
@@ -22,6 +55,7 @@ namespace LuaEigen {
 		using Base::RowsAtCompileTime;
 		using Base::ColsAtCompileTime;
 
+		using Base::resize;
 		using Base::size;
 		using Base::rows;
 		using Base::cols;
@@ -240,6 +274,8 @@ namespace LuaEigen {
 		NAMED_COORD(w)
 #undef NAMED_COORD
 
+		int resize(lua_State *L);
+
 		int size(lua_State *L) {
 			lua_pushinteger(L, size());
 			return 1;
@@ -297,12 +333,6 @@ namespace LuaEigen {
 			return 1;
 		}
 
-		int segment3(lua_State *L) {
-			int base_row = luaL_checkinteger(L, 2);
-			Lunar<Matrix<Scalar, 3, 1>>::push(L, new Matrix<Scalar, 3, 1>(Base::template segment<3>(base_row)), true);
-			return 1;
-		}
-
 		LUNAR_DECLARE(Type);
 	};
 
@@ -315,6 +345,19 @@ namespace LuaEigen {
 	typedef Matrix<float, 3, 3> Matrix3f;
 	typedef Matrix<float, 4, 4> Matrix4f;
 	typedef Matrix<float, Eigen::Dynamic, Eigen::Dynamic> MatrixXf;
+
+	typedef Segment<VectorXf, 2> SegmentXf2;
+	typedef Segment<VectorXf, 3> SegmentXf3;
+
+	template<>
+	int VectorXf::init(lua_State *L);
+	template<>
+	int VectorXf::resize(lua_State *L);
+
+	template<>
+	int MatrixXf::init(lua_State *L);
+	template<>
+	int MatrixXf::resize(lua_State *L);
 }
 
 #endif
