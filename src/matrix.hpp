@@ -154,6 +154,48 @@ namespace LuaEigen {
 			return 1;
 		}
 
+		int __index(lua_State *L) {
+			int isint = false;
+			int i = lua_tointegerx(L, 2, &isint);
+			if (isint) {
+				if (i < 1 || i > rows()) {
+					luaL_argerror(L, 2, "Index needs to be >= 1 and <= rows()");
+				}
+				lua_pushnumber(L, (*this)(i-1,0)); // FIXME will break for matrices!
+				return 1;
+			}
+
+			const char *identifier = lua_tostring(L, 2);
+			if (identifier) {
+				/* FIXME: HUGE HACK!!! But we need to access the method table somehow, without triggering ourselves... */
+				if (!luaL_getmetafield(L, 1, "__metatable")) {
+					return luaL_argerror(L, 1, "self should have a __metatable");
+				}
+				lua_getfield(L, -1, identifier);
+				return 1;
+			}
+
+			return luaL_argerror(L, 2, "Argument needs to be integer or string");
+		}
+
+		int __newindex(lua_State *L) {
+			int isint = false;
+			int i = lua_tointegerx(L, 2, &isint);
+			if (isint) {
+				if (i < 1 || i > rows()) {
+					luaL_argerror(L, 2, "Index needs to be >= 1 and <= rows()");
+				}
+				(*this)(i-1,0) = luaL_checknumber(L, 3); // FIXME will break for matrices!
+				return 0;
+			}
+
+			if (lua_type(L, 2) == LUA_TSTRING) {
+				return Lunar<Type>::newindex_T(L);
+			}
+
+			return luaL_argerror(L, 2, "Argument needs to be integer or string");
+		}
+
 		int __tostring(lua_State *L) {
 			/* Write vectors more nicely */
 			if (ColsAtCompileTime == 1) {
