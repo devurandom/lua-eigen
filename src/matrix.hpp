@@ -93,7 +93,8 @@ namespace LuaEigen {
 					if (!isnum) {
 						return luaL_argerror(L, i, "Argument must be a number");
 					}
-					(*this)((i-2)/cols(),(i-2)%cols()) = n;
+					int idx = i-2, row = idx/cols(), col = idx%cols();
+					(*this)(row,col) = n;
 				}
 			}
 			else {
