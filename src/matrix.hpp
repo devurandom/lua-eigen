@@ -213,8 +213,8 @@ namespace LuaEigen {
 			const char *identifier = lua_tostring(L, 2);
 			if (identifier) {
 				/* FIXME: HUGE HACK!!! But we need to access the method table somehow, without triggering ourselves... */
-				if (!luaL_getmetafield(L, 1, "__metatable")) {
-					return luaL_argerror(L, 1, "self should have a __metatable");
+				if (!luaL_getmetafield(L, 1, "_methodtable")) {
+					return luaL_argerror(L, 1, "self should have a _methodtable");
 				}
 				lua_getfield(L, -1, identifier);
 				return 1;
