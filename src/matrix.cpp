@@ -151,6 +151,15 @@ namespace LuaEigen {
 	};
 
 	template<>
+	int VectorXf::prep(lua_State *L) {
+		const int instance = lua_absindex(L, -1);
+		Lunar<Segment<Type, 2>>::push(L, new Segment<Type, 2>(this), true);
+		lua_setfield(L, instance, "segment2");
+		Lunar<Segment<Type, 3>>::push(L, new Segment<Type, 3>(this), true);
+		lua_setfield(L, instance, "segment3");
+		return 0;
+	}
+	template<>
 	int VectorXf::resize(lua_State *L) {
 		int isnum = false;
 		float n = lua_tonumberx(L, 2, &isnum);
@@ -170,10 +179,6 @@ namespace LuaEigen {
 		else {
 			resize(L);
 		}
-		Lunar<Segment<Type, 2>>::push(L, new Segment<Type, 2>(this), true);
-		lua_setfield(L, 1, "segment2");
-		Lunar<Segment<Type, 3>>::push(L, new Segment<Type, 3>(this), true);
-		lua_setfield(L, 1, "segment3");
 		return 0;
 	}
 	template<>

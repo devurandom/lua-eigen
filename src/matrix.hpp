@@ -76,6 +76,8 @@ namespace LuaEigen {
 		Matrix(const Base &o) : Base(o) {}
 		~Matrix() {}
 
+		int prep(lua_State *L) { return 0; }
+
 		int init(lua_State *L) {
 			int l_nargs = lua_gettop(L);
 
@@ -360,6 +362,8 @@ namespace LuaEigen {
 	typedef Segment<VectorXf, 2> SegmentXf2;
 	typedef Segment<VectorXf, 3> SegmentXf3;
 
+	template<>
+	int VectorXf::prep(lua_State *L);
 	template<>
 	int VectorXf::init(lua_State *L);
 	template<>
