@@ -12,8 +12,15 @@ extern "C" {
 
 namespace LuaEigen {
 	struct Quaternionf : public Eigen::Quaternionf {
+		typedef Eigen::Quaternionf Base;
+		typedef typename Base::AngleAxisType AngleAxisType;
+
 		Quaternionf(lua_State *L);
-		Quaternionf(const Eigen::Quaternionf &o);
+		Quaternionf(const AngleAxisType &o);
+		template<typename Derived>
+		Quaternionf(const Eigen::QuaternionBase<Derived> &o) : Base(o) {}
+		template<typename Derived>
+		Quaternionf(const Eigen::MatrixBase<Derived> &o) : Base(o) {}
 		~Quaternionf();
 
 		int init(lua_State *L);

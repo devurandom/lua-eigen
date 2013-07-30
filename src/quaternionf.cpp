@@ -4,15 +4,15 @@
 
 namespace LuaEigen {
 	Quaternionf::Quaternionf(lua_State *L)
+	: Base()
 	{}
 
-	Quaternionf::Quaternionf(const Eigen::Quaternionf &o)
-	: Eigen::Quaternionf(o)
+	Quaternionf::Quaternionf(const AngleAxisType &o)
+	: Base(o)
 	{}
 
 	Quaternionf::~Quaternionf()
 	{}
-
 
 	int Quaternionf::init(lua_State *L) {
 		float w = luaL_checknumber(L, 2);
@@ -20,7 +20,7 @@ namespace LuaEigen {
 		float y = luaL_checknumber(L, 4);
 		float z = luaL_checknumber(L, 5);
 
-		*this = Eigen::Quaternionf(w, x, y, z);
+		*this = Base(w, x, y, z);
 
 		return 0;
 	}

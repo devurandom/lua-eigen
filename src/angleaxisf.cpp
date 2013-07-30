@@ -7,8 +7,8 @@ namespace LuaEigen {
 	AngleAxisf::AngleAxisf(lua_State *L)
 	{}
 
-	AngleAxisf::AngleAxisf(const Eigen::AngleAxisf &o)
-	: Eigen::AngleAxisf(o)
+	AngleAxisf::AngleAxisf(const Base &o)
+	: Base(o)
 	{}
 
 	AngleAxisf::~AngleAxisf()

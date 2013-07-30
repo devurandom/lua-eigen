@@ -12,9 +12,25 @@ extern "C" {
 
 namespace LuaEigen {
 	struct AngleAxisf : public Eigen::AngleAxisf {
+		typedef Eigen::AngleAxisf Base;
+
 		AngleAxisf(lua_State *L);
-		AngleAxisf(const Eigen::AngleAxisf &o);
+		AngleAxisf(const Base &o);
+		template<typename Derived>
+		AngleAxisf(const Eigen::QuaternionBase<Derived> &o) : Base(o) {}
+		template<typename Derived>
+		AngleAxisf(const Eigen::MatrixBase<Derived> &o) : Base(o) {}
 		~AngleAxisf();
+
+		template<typename Derived>
+		AngleAxisf &operator=(const Eigen::QuaternionBase<Derived> &o) {
+			return Base::operator=(o);
+		}
+
+		template<typename Derived>
+		AngleAxisf &operator=(const Eigen::MatrixBase<Derived> &o) {
+			return Base::operator=(o);
+		}
 
 		int init(lua_State *L);
 

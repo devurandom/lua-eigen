@@ -72,9 +72,29 @@ namespace LuaEigen {
 		using Base::dot;
 		using Base::cross;
 
-		Matrix(lua_State *L) {}
-		Matrix(const Base &o) : Base(o) {}
+		Matrix(lua_State *L) : Base() {}
+		template<typename OtherDerived>
+		Matrix(const Eigen::MatrixBase<OtherDerived> &o) : Base(o) {}
+		template<typename OtherDerived>
+		Matrix(const Eigen::EigenBase<OtherDerived> &o) : Base(o) {}
+		template<typename OtherDerived>
+		Matrix(const Eigen::ReturnByValue<OtherDerived> &o) : Base(o) {}
 		~Matrix() {}
+
+		template<typename OtherDerived>
+		Matrix &operator=(const Eigen::MatrixBase<OtherDerived> &o) {
+			return Base::operator=(o);
+		}
+
+		template<typename OtherDerived>
+		Matrix &operator=(const Eigen::EigenBase<OtherDerived> &o) {
+			return Base::operator=(o);
+		}
+
+		template<typename OtherDerived>
+		Matrix &operator=(const Eigen::ReturnByValue<OtherDerived> &o) {
+			return Base::operator=(o);
+		}
 
 		int prep(lua_State *L) { return 0; }
 
