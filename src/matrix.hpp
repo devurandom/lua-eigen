@@ -83,17 +83,20 @@ namespace LuaEigen {
 
 		template<typename OtherDerived>
 		Matrix &operator=(const Eigen::MatrixBase<OtherDerived> &o) {
-			return Base::operator=(o);
+			Base::operator=(o);
+			return *this;
 		}
 
 		template<typename OtherDerived>
 		Matrix &operator=(const Eigen::EigenBase<OtherDerived> &o) {
-			return Base::operator=(o);
+			Base::operator=(o);
+			return *this;
 		}
 
 		template<typename OtherDerived>
 		Matrix &operator=(const Eigen::ReturnByValue<OtherDerived> &o) {
-			return Base::operator=(o);
+			Base::operator=(o);
+			return *this;
 		}
 
 		int prep(lua_State *L) { return 0; }
