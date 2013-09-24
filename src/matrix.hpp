@@ -112,7 +112,7 @@ namespace LuaEigen {
 				for (int i = 2; i <= l_nargs; i++) {
 					Matrix<Scalar,RowsAtCompileTime,1> *o = Lunar<Matrix<Scalar,RowsAtCompileTime,1>>::test(L, i);
 					if (o == nullptr) {
-						return luaL_argerror(L, i, "Argument must be a number");
+						return luaL_argerror(L, i, "Argument must be a vector");
 					}
 					int col = i-2;
 					this->template block<RowsAtCompileTime,1>(0,col) = *o;
