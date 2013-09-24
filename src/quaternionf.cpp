@@ -35,13 +35,21 @@ namespace LuaEigen {
 				return 1;
 			}
 
+			if (Vector3f::iscompat(L, 2)) {
+				float op2t[3];
+				if (Vector3f::fromtable(L, 2, op2t) == 1) {
+					Vector3f res((*op1q) * Eigen::Map<Eigen::Vector3f>(op2t));
+					return res.totable(L);
+				}
+			}
+
 			Vector3f *op2v = Lunar<Vector3f>::test(L, 2);
 			if (op2v != nullptr) {
 				Lunar<Vector3f>::push(L, new Vector3f((*op1q) * (*op2v)), true);
 				return 1;
 			}
 
-			return luaL_argerror(L, 2, "Argument must be a Quaternionf or Vector3f");
+			return luaL_argerror(L, 2, "Argument must be a Quaternionf, a Vector3f or a table of 3 numbers");
 		}
 
 		return luaL_argerror(L, 1, "Argument must be a Quaternionf");
