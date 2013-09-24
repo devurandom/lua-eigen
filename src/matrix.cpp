@@ -18,7 +18,8 @@
 	LUNAR_METHOD(type, cols), \
 	LUNAR_METHOD(type, size), \
 	LUNAR_METHOD(type, data), \
-	LUNAR_METHOD(type, setZero)
+	LUNAR_METHOD(type, setZero), \
+	LUNAR_METHOD(type, totable)
 
 #define MATRIX_METHODS(type) \
 	MATRIXBASE_METHODS(type), \

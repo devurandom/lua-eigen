@@ -34,9 +34,21 @@ namespace LuaEigen {
 
 		int __newindex(lua_State *L) {
 			int base_row = luaL_checkinteger(L, 2);
-			SegmentType *value = Lunar<SegmentType>::check(L, 3);
-			_vector->template segment<_Size>(base_row-1) = *value;
-			return 0;
+			if (SegmentType::iscompat(L, 3)) {
+				float table[3];
+				if (SegmentType::fromtable(L, 3, table) == 1) {
+					_vector->template segment<_Size>(base_row-1) = Eigen::Map<typename SegmentType::Base>(table);
+					return 0;
+				}
+			}
+
+			SegmentType *value = Lunar<SegmentType>::test(L, 3);
+			if (value) {
+				_vector->template segment<_Size>(base_row-1) = *value;
+				return 0;
+			}
+
+			return luaL_argerror(L, 3, "Argument must be a VectorNf or a table of N numbers");
 		}
 
 		LUNAR_DECLARE(Type);
@@ -47,6 +59,9 @@ namespace LuaEigen {
 
 	template<typename _Scalar, int _Rows, int _Cols>
 	class Matrix : public Eigen::Matrix<_Scalar, _Rows, _Cols> {
+		friend class Segment<Matrix<_Scalar, Eigen::Dynamic, 1>, 2>;
+		friend class Segment<Matrix<_Scalar, Eigen::Dynamic, 1>, 3>;
+
 		typedef Matrix<_Scalar, _Rows, _Cols> Type;
 		typedef Eigen::Matrix<_Scalar, _Rows, _Cols> Base;
 
@@ -111,6 +126,16 @@ namespace LuaEigen {
 			else if (l_nargs == 1) {
 				setZero();
 			}
+			else if (l_nargs == 2) {
+				if (iscompat(L, 2)) {
+					float table[RowsAtCompileTime*ColsAtCompileTime];
+					if (fromtable(L, 2, table) == 1) {
+						*this = Eigen::Map<Base>(table);
+						return 0;
+					}
+				}
+				return luaL_argerror(L, 2, "Argument must be a table of N numbers");
+			}
 			else if (l_nargs-1 == cols()) {
 				for (int i = 2; i <= l_nargs; i++) {
 					Matrix<Scalar,RowsAtCompileTime,1> *o = Lunar<Matrix<Scalar,RowsAtCompileTime,1>>::test(L, i);
@@ -137,6 +162,36 @@ namespace LuaEigen {
 			}
 
 			return 0;
+		}
+
+		static int iscompat(lua_State *L, int index) {
+			return lua_istable(L, index) && lua_rawlen(L, index) == RowsAtCompileTime*ColsAtCompileTime;
+		}
+
+		static int fromtable(lua_State *L, int index, Scalar array[RowsAtCompileTime*ColsAtCompileTime]) {
+			for (int i = 1; i <= RowsAtCompileTime; i++) {
+				for (int j = 1; j <= ColsAtCompileTime; j++) {
+					int isnum = false;
+					lua_rawgeti(L, index, i*j);
+					array[i-1] = lua_tonumberx(L, -1, &isnum);
+					if (!isnum) {
+						return 0;
+					}
+				}
+			}
+
+			return 1;
+		}
+
+		int totable(lua_State *L) {
+			lua_createtable(L, RowsAtCompileTime*ColsAtCompileTime, 0);
+			for (int i = 1; i <= RowsAtCompileTime; i++) {
+				for (int j = 1; j <= ColsAtCompileTime; j++) {
+					lua_pushnumber(L, (*this)(i-1, j-1));
+					lua_rawseti(L, -2, i*j);
+				}
+			}
+			return 1;
 		}
 
 		int __add(lua_State *L) {
