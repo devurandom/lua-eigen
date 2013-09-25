@@ -34,6 +34,7 @@ namespace LuaEigen {
 
 		int __newindex(lua_State *L) {
 			int base_row = luaL_checkinteger(L, 2);
+
 			if (SegmentType::iscompat(L, 3)) {
 				float table[3];
 				if (SegmentType::fromtable(L, 3, table) == 1) {
@@ -119,22 +120,24 @@ namespace LuaEigen {
 		int init(lua_State *L) {
 			int l_nargs = lua_gettop(L);
 
-			Type *o = Lunar<Type>::test(L, 2);
-			if (o != nullptr) {
-				*this = *o;
-			}
-			else if (l_nargs == 1) {
+			if (l_nargs == 1) {
 				setZero();
 			}
 			else if (l_nargs == 2) {
 				if (iscompat(L, 2)) {
 					float table[RowsAtCompileTime*ColsAtCompileTime];
-					if (fromtable(L, 2, table) == 1) {
-						*this = Eigen::Map<Base>(table);
-						return 0;
+					if (fromtable(L, 2, table) == 0) {
+						return luaL_argerror(L, 2, "Argument must be a table of N numbers");
 					}
+					*this = Eigen::Map<Base>(table);
 				}
-				return luaL_argerror(L, 2, "Argument must be a table of N numbers");
+				else {
+					Type *o = Lunar<Type>::test(L, 2);
+					if (o == nullptr) {
+						return luaL_argerror(L, 2, "Argument must be a vector");
+					}
+					*this = *o;
+				}
 			}
 			else if (l_nargs-1 == cols()) {
 				for (int i = 2; i <= l_nargs; i++) {
