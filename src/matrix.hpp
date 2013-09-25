@@ -34,22 +34,21 @@ namespace LuaEigen {
 
 		int __newindex(lua_State *L) {
 			int base_row = luaL_checkinteger(L, 2);
-
 			if (SegmentType::iscompat(L, 3)) {
-				float table[3];
-				if (SegmentType::fromtable(L, 3, table) == 1) {
-					_vector->template segment<_Size>(base_row-1) = Eigen::Map<typename SegmentType::Base>(table);
-					return 0;
+				float table[_Size];
+				if (SegmentType::fromtable(L, 3, table) == 0) {
+					return luaL_argerror(L, 3, "Argument must be a VectorNf or a table of N numbers");
 				}
+				_vector->template segment<_Size>(base_row-1) = Eigen::Map<typename SegmentType::Base>(table);
 			}
-
-			SegmentType *value = Lunar<SegmentType>::test(L, 3);
-			if (value) {
+			else {
+				SegmentType *value = Lunar<SegmentType>::test(L, 3);
+				if (value == nullptr) {
+					return luaL_argerror(L, 3, "Argument must be a VectorNf or a table of N numbers");
+				}
 				_vector->template segment<_Size>(base_row-1) = *value;
-				return 0;
 			}
-
-			return luaL_argerror(L, 3, "Argument must be a VectorNf or a table of N numbers");
+			return 0;
 		}
 
 		LUNAR_DECLARE(Type);
