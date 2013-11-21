@@ -344,15 +344,16 @@ namespace LuaEigen {
 				return luaL_argerror(L, 3, "Index needs to be >= 1 and <= cols()");
 			}
 
-			int isnum = false;
-			Scalar f = lua_tonumberx(L, 4, &isnum);
-			if (isnum) {
-				(*this)(i-1,j-1) = f;
-				return 0;
+			switch (lua_gettop(L)) {
+				case 3:
+					lua_pushnumber(L, (*this)(i-1,j-1));
+					return 1;
+				case 4:
+					(*this)(i-1,j-1) = luaL_checknumber(L, 4);
+					return 0;
 			}
 
-			lua_pushnumber(L, (*this)(i-1,j-1));
-			return 1;
+			return luaL_argerror(L, 0, "Unexpected number of arguments");
 		}
 
 		int __tostring(lua_State *L) {
