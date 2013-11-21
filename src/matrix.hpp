@@ -310,7 +310,7 @@ namespace LuaEigen {
 			int i = lua_tointegerx(L, 2, &isint);
 			if (isint) {
 				if (i < 1 || i > rows()) {
-					luaL_argerror(L, 2, "Index needs to be >= 1 and <= rows()");
+					return luaL_argerror(L, 2, "Index needs to be >= 1 and <= rows()");
 				}
 				(*this)(i-1,0) = luaL_checknumber(L, 3); // FIXME will break for matrices!
 				return 0;
@@ -331,7 +331,7 @@ namespace LuaEigen {
 			}
 
 			if (i < 1 || i > rows()) {
-				luaL_argerror(L, 2, "Index needs to be >= 1 and <= rows()");
+				return luaL_argerror(L, 2, "Index needs to be >= 1 and <= rows()");
 			}
 
 			isint = false;
@@ -341,7 +341,7 @@ namespace LuaEigen {
 			}
 
 			if (j < 1 || j > cols()) {
-				luaL_argerror(L, 3, "Index needs to be >= 1 and <= cols()");
+				return luaL_argerror(L, 3, "Index needs to be >= 1 and <= cols()");
 			}
 
 			int isnum = false;
