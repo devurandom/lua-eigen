@@ -323,6 +323,38 @@ namespace LuaEigen {
 			return luaL_argerror(L, 2, "Argument needs to be an integer or string");
 		}
 
+		int __call(lua_State *L) {
+			int isint = false;
+			int i = lua_tointegerx(L, 2, &isint);
+			if (!isint) {
+				return luaL_argerror(L, 2, "Argument needs to be an integer");
+			}
+
+			if (i < 1 || i > rows()) {
+				luaL_argerror(L, 2, "Index needs to be >= 1 and <= rows()");
+			}
+
+			isint = false;
+			int j = lua_tointegerx(L, 3, &isint);
+			if (!isint) {
+				return luaL_argerror(L, 3, "Argument needs to be an integer");
+			}
+
+			if (j < 1 || j > cols()) {
+				luaL_argerror(L, 3, "Index needs to be >= 1 and <= cols()");
+			}
+
+			int isnum = false;
+			int f = lua_tonumberx(L, 4, &isnum);
+			if (isnum) {
+				(*this)(i-1,j-1) = f;
+				return 0;
+			}
+
+			lua_pushnumber(L, (*this)(i-1,j-1));
+			return 1;
+		}
+
 		int __tostring(lua_State *L) {
 			/* Write vectors more nicely */
 			if (ColsAtCompileTime == 1) {

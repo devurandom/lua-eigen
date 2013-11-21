@@ -5,6 +5,7 @@
 	LUNAR_METHOD(type, __newindex)
 
 #define MATRIXBASE_METHODS(type) \
+	LUNAR_METHOD(type, __call), \
 	LUNAR_METHOD(type, __add), \
 	LUNAR_METHOD(type, __sub), \
 	LUNAR_METHOD(type, __mul), \
