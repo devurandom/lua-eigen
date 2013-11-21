@@ -302,7 +302,7 @@ namespace LuaEigen {
 				return 1;
 			}
 
-			return luaL_argerror(L, 2, "Argument needs to be integer or string");
+			return luaL_argerror(L, 2, "Argument needs to be an integer or string");
 		}
 
 		int __newindex(lua_State *L) {
@@ -320,7 +320,7 @@ namespace LuaEigen {
 				return Lunar<Type>::newindex_T(L);
 			}
 
-			return luaL_argerror(L, 2, "Argument needs to be integer or string");
+			return luaL_argerror(L, 2, "Argument needs to be an integer or string");
 		}
 
 		int __tostring(lua_State *L) {
