@@ -345,7 +345,7 @@ namespace LuaEigen {
 			}
 
 			int isnum = false;
-			int f = lua_tonumberx(L, 4, &isnum);
+			Scalar f = lua_tonumberx(L, 4, &isnum);
 			if (isnum) {
 				(*this)(i-1,j-1) = f;
 				return 0;
