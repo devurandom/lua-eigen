@@ -82,6 +82,7 @@ namespace LuaEigen {
 		using Base::setZero;
 		using Base::norm;
 		using Base::squaredNorm;
+		using Base::determinant;
 		using Base::inverse;
 		using Base::transpose;
 		using Base::dot;
@@ -434,6 +435,11 @@ namespace LuaEigen {
 
 		int squaredNorm(lua_State *L) {
 			lua_pushnumber(L, squaredNorm());
+			return 1;
+		}
+
+		int determinant(lua_State *L) {
+			lua_pushnumber(L, determinant());
 			return 1;
 		}
 

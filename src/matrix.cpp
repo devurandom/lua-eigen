@@ -24,6 +24,7 @@
 
 #define MATRIX_METHODS(type) \
 	MATRIXBASE_METHODS(type), \
+	LUNAR_METHOD(type, determinant), \
 	LUNAR_METHOD(type, inverse), \
 	LUNAR_METHOD(type, transpose)
 
