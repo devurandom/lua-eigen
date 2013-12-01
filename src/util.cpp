@@ -51,7 +51,7 @@ static Eigen::Matrix4f more_simple_projection(float fovy, float aspect, float n,
 	out <<
 		x_scale, 0.0f, 0.0f, 0.0f,
 		0.0f, y_scale, 0.0f, 0.0f,
-		0.0f, -((f + n) / d), -((2.0f*n*f)/d), 0.0f,
+		0.0f, 0.0f, -((f + n) / d), -((2.0f*n*f)/d),
 		0.0f, 0.0f, -1.0f, 0.0f;
 
 	return out;
