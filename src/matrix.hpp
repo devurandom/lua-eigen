@@ -35,7 +35,7 @@ namespace LuaEigen {
 		int __newindex(lua_State *L) {
 			int base_row = luaL_checkinteger(L, 2);
 			if (SegmentType::iscompat(L, 3)) {
-				float table[_Size] = {0.0};
+				typename _VectorType::Scalar table[_Size] = {0.0};
 				if (SegmentType::fromtable(L, 3, table) == 0) {
 					return luaL_argerror(L, 3, "Argument must be a VectorNf or a table of N numbers");
 				}
@@ -125,7 +125,7 @@ namespace LuaEigen {
 			}
 			else if (l_nargs == 2) {
 				if (iscompat(L, 2)) {
-					float table[RowsAtCompileTime*ColsAtCompileTime] = {0.0};
+					Scalar table[RowsAtCompileTime*ColsAtCompileTime] = {0.0};
 					if (fromtable(L, 2, table) == 0) {
 						return luaL_argerror(L, 2, "Argument must be a table of N numbers");
 					}
@@ -152,7 +152,7 @@ namespace LuaEigen {
 			else if (l_nargs-1 == size()) {
 				for (int i = 2; i <= l_nargs; i++) {
 					int isnum = false;
-					float n = lua_tonumberx(L, i, &isnum);
+					Scalar n = lua_tonumberx(L, i, &isnum);
 					if (!isnum) {
 						return luaL_argerror(L, i, "Argument must be a number");
 					}
@@ -215,7 +215,7 @@ namespace LuaEigen {
 			Type *op1 = Lunar<Type>::test(L, 1);
 			if (op1 == this) {
 				int isnum = false;
-				float op2s = lua_tonumberx(L, 2, &isnum);
+				Scalar op2s = lua_tonumberx(L, 2, &isnum);
 				if (isnum) {
 					Lunar<Type>::push(L, new Type((*op1) * op2s), true);
 					return 1;
@@ -244,7 +244,7 @@ namespace LuaEigen {
 			Type *op2 = Lunar<Type>::test(L, 2);
 			if (op2 == this) {
 				int isnum = false;
-				float op1s = lua_tonumberx(L, 1, &isnum);
+				Scalar op1s = lua_tonumberx(L, 1, &isnum);
 				if (isnum) {
 					Lunar<Type>::push(L, new Type(op1s * (*op2)), true);
 					return 1;
@@ -267,7 +267,7 @@ namespace LuaEigen {
 
 		int __div(lua_State *L) {
 			Type *op1 = Lunar<Type>::check(L, 1);
-			float op2s = luaL_checknumber(L, 2);
+			Scalar op2s = luaL_checknumber(L, 2);
 			Lunar<Type>::push(L, new Type((*op1) / op2s), true);
 			return 1;
 		}
