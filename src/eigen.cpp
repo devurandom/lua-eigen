@@ -12,6 +12,8 @@ extern "C" {
 
 #include "matrix.hpp"
 
+#include "conjugategradient.hpp"
+
 
 extern "C" int luaopen_eigen_util(lua_State *L);
 
@@ -75,6 +77,12 @@ extern "C" int luaopen_eigen(lua_State *L) {
 	using LuaEigen::SegmentXf2;
 	using LuaEigen::SegmentXf3;
 
+	using LuaEigen::ConjugateGradient1f;
+	using LuaEigen::ConjugateGradient2f;
+	using LuaEigen::ConjugateGradient3f;
+	using LuaEigen::ConjugateGradient4f;
+	using LuaEigen::ConjugateGradientXf;
+
 	lua_newtable(L);
 	int l_eigen = lua_gettop(L);
 
@@ -95,6 +103,12 @@ extern "C" int luaopen_eigen(lua_State *L) {
 
 	Lunar<SegmentXf2>::Register(L);
 	Lunar<SegmentXf3>::Register(L);
+
+	Lunar<ConjugateGradient1f>::Register(L);
+	Lunar<ConjugateGradient2f>::Register(L);
+	Lunar<ConjugateGradient3f>::Register(L);
+	Lunar<ConjugateGradient4f>::Register(L);
+	Lunar<ConjugateGradientXf>::Register(L);
 
 	luaopen_eigen_util(L);
 	lua_setfield(L, l_eigen, "util");

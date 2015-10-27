@@ -73,6 +73,8 @@ add_library(eigen MODULE
 	src/quaternionf.cpp
 
 	src/matrix.cpp
+
+	src/conjugategradient.cpp
 )
 
 target_link_libraries(eigen
