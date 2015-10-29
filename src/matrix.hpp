@@ -346,11 +346,21 @@ namespace LuaEigen {
 			int isint = false;
 			int i = lua_tointegerx(L, 2, &isint);
 			if (isint) {
-				if (i < 1 || i > rows()) {
-					luaL_argerror(L, 2, "Index needs to be >= 1 and <= rows()");
+				if (ColsAtCompileTime == 1) {
+					if (i < 1 || i > rows()) {
+						return luaL_argerror(L, 2, "Index needs to be >= 1 and <= rows()");
+					}
+					lua_pushnumber(L, (*this)(i-1,0));
+					return 1;
 				}
-				lua_pushnumber(L, (*this)(i-1,0)); // FIXME will break for matrices!
-				return 1;
+				else if (RowsAtCompileTime == 1) {
+					if (i < 1 || i > cols()) {
+						return luaL_argerror(L, 2, "Index needs to be >= 1 and <= cols()");
+					}
+					lua_pushnumber(L, (*this)(0,i-1));
+					return 1;
+				}
+				return luaL_argerror(L, 2, "Cannot index a matrix using one integer alone");
 			}
 
 			const char *identifier = lua_tostring(L, 2);
@@ -370,11 +380,21 @@ namespace LuaEigen {
 			int isint = false;
 			int i = lua_tointegerx(L, 2, &isint);
 			if (isint) {
-				if (i < 1 || i > rows()) {
-					return luaL_argerror(L, 2, "Index needs to be >= 1 and <= rows()");
+				if (ColsAtCompileTime == 1) {
+					if (i < 1 || i > rows()) {
+						return luaL_argerror(L, 2, "Index needs to be >= 1 and <= rows()");
+					}
+					(*this)(i-1,0) = luaL_checknumber(L, 3);
+					return 0;
 				}
-				(*this)(i-1,0) = luaL_checknumber(L, 3); // FIXME will break for matrices!
-				return 0;
+				else if (RowsAtCompileTime == 1) {
+					if (i < 1 || i > cols()) {
+						return luaL_argerror(L, 2, "Index needs to be >= 1 and <= cols()");
+					}
+					(*this)(0,i-1) = luaL_checknumber(L, 3);
+					return 0;
+				}
+				return luaL_argerror(L, 2, "Cannot index a matrix using one integer alone");
 			}
 
 			if (lua_type(L, 2) == LUA_TSTRING) {
