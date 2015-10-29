@@ -73,9 +73,9 @@ namespace LuaEigen {
 	template<>
 	int VectorXf::onpush(lua_State *L) {
 		const int instance = lua_absindex(L, -1);
-		Lunar<Segment<Type, 2>>::push(L, new Segment<Type, 2>(this), true);
+		Lunar<Segment<Type, 2, 1>>::push(L, new Segment<Type, 2, 1>(this), true);
 		lua_setfield(L, instance, "segment2");
-		Lunar<Segment<Type, 3>>::push(L, new Segment<Type, 3>(this), true);
+		Lunar<Segment<Type, 3, 1>>::push(L, new Segment<Type, 3, 1>(this), true);
 		lua_setfield(L, instance, "segment3");
 		return 0;
 	}

@@ -15,10 +15,12 @@ namespace LuaEigen {
 	template<typename _Scalar, int _Rows, int _Cols>
 	class Matrix;
 
-	template<typename _VectorType, int _Size>
+	template<typename _VectorType, int _Rows, int _Cols>
 	class Segment {
-		typedef Segment<_VectorType, _Size> Type;
-		typedef Matrix<typename _VectorType::Scalar, _Size, 1> SegmentType;
+		typedef Segment<_VectorType, _Rows, _Cols> Type;
+		typedef Matrix<typename _VectorType::Scalar, _Rows, _Cols> SegmentType;
+
+		static const int _Size = _Rows*_Cols;
 
 	public:
 		Segment(lua_State *L) {assert(false);}
@@ -59,8 +61,10 @@ namespace LuaEigen {
 
 	template<typename _Scalar, int _Rows, int _Cols>
 	class Matrix : public Eigen::Matrix<_Scalar, _Rows, _Cols> {
-		friend class Segment<Matrix<_Scalar, Eigen::Dynamic, 1>, 2>;
-		friend class Segment<Matrix<_Scalar, Eigen::Dynamic, 1>, 3>;
+		friend class Segment<Matrix<_Scalar, Eigen::Dynamic, 1>, 2, 1>;
+		friend class Segment<Matrix<_Scalar, Eigen::Dynamic, 1>, 3, 1>;
+		friend class Segment<Matrix<_Scalar, 1, Eigen::Dynamic>, 1, 2>;
+		friend class Segment<Matrix<_Scalar, 1, Eigen::Dynamic>, 1, 3>;
 
 		typedef Matrix<_Scalar, _Rows, _Cols> Type;
 		typedef Eigen::Matrix<_Scalar, _Rows, _Cols> Base;
@@ -473,8 +477,8 @@ namespace LuaEigen {
 	typedef Matrix<float, 4, 1> Vector4f;
 	typedef Matrix<float, Eigen::Dynamic, 1> VectorXf;
 
-	typedef Segment<VectorXf, 2> SegmentXf2;
-	typedef Segment<VectorXf, 3> SegmentXf3;
+	typedef Segment<VectorXf, 2, 1> SegmentXf2;
+	typedef Segment<VectorXf, 3, 1> SegmentXf3;
 
 	typedef Matrix<float, 1, 1> Matrix1f;
 	typedef Matrix<float, 2, 2> Matrix2f;
