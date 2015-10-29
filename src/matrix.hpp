@@ -444,12 +444,12 @@ namespace LuaEigen {
 		}
 
 		int inverse(lua_State *L) {
-			Lunar<Type>::push(L, new Type(inverse()), true);
+			Lunar<Matrix<_Scalar, _Cols, _Rows>>::push(L, new Matrix<_Scalar, _Cols, _Rows>(inverse()), true);
 			return 1;
 		}
 
 		int transpose(lua_State *L) {
-			Lunar<Type>::push(L, new Type(transpose()), true);
+			Lunar<Matrix<_Scalar, _Cols, _Rows>>::push(L, new Matrix<_Scalar, _Cols, _Rows>(transpose()), true);
 			return 1;
 		}
 
