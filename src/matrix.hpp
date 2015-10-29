@@ -39,14 +39,14 @@ namespace LuaEigen {
 			if (SegmentType::iscompat(L, 3)) {
 				typename _VectorType::Scalar table[_Size] = {0.0};
 				if (SegmentType::fromtable(L, 3, table) == 0) {
-					return luaL_argerror(L, 3, "Argument must be a VectorNf or a table of N numbers");
+					return luaX_typeerror(L, 3, NULL, "VectorNf or table of N numbers");
 				}
 				_vector->template segment<_Size>(base_row-1) = Eigen::Map<typename SegmentType::Base>(table);
 			}
 			else {
 				SegmentType *value = Lunar<SegmentType>::test(L, 3);
 				if (value == nullptr) {
-					return luaL_argerror(L, 3, "Argument must be a VectorNf or a table of N numbers");
+					return luaX_typeerror(L, 3, NULL, "VectorNf or table of N numbers");
 				}
 				_vector->template segment<_Size>(base_row-1) = *value;
 			}
@@ -131,14 +131,14 @@ namespace LuaEigen {
 				if (iscompat(L, 2)) {
 					Scalar table[RowsAtCompileTime*ColsAtCompileTime] = {0.0};
 					if (fromtable(L, 2, table) == 0) {
-						return luaL_argerror(L, 2, "Argument must be a table of N numbers");
+						return luaX_typeerror(L, 2, NULL, "table of N numbers");
 					}
 					*this = Eigen::Map<Base>(table);
 				}
 				else {
 					Type *o = Lunar<Type>::test(L, 2);
 					if (o == nullptr) {
-						return luaL_argerror(L, 2, "Argument must be a vector");
+						return luaX_typeerror(L, 2, NULL, "vector");
 					}
 					*this = *o;
 				}
@@ -147,7 +147,7 @@ namespace LuaEigen {
 				for (int i = 2; i <= l_nargs; i++) {
 					Matrix<Scalar,RowsAtCompileTime,1> *o = Lunar<Matrix<Scalar,RowsAtCompileTime,1>>::test(L, i);
 					if (o == nullptr) {
-						return luaL_argerror(L, i, "Argument must be a vector");
+						return luaX_typeerror(L, i, NULL, "vector");
 					}
 					int col = i-2;
 					this->template block<RowsAtCompileTime,1>(0,col) = *o;
@@ -158,7 +158,7 @@ namespace LuaEigen {
 					int isnum = false;
 					Scalar n = lua_tonumberx(L, i, &isnum);
 					if (!isnum) {
-						return luaL_argerror(L, i, "Argument must be a number");
+						return luaX_typeerror(L, i, NULL, "number");
 					}
 					int idx = i-2, row = idx/cols(), col = idx%cols();
 					(*this)(row,col) = n;
@@ -529,7 +529,7 @@ namespace LuaEigen {
 				return 1;
 			}
 
-			return luaL_argerror(L, 2, "Argument needs to be an integer or string");
+			return luaX_typeerror(L, 2, NULL, "integer or string");
 		}
 
 		int __newindex(lua_State *L) {
@@ -557,14 +557,14 @@ namespace LuaEigen {
 				return Lunar<Type>::newindex_T(L);
 			}
 
-			return luaL_argerror(L, 2, "Argument needs to be an integer or string");
+			return luaX_typeerror(L, 2, NULL, "integer or string");
 		}
 
 		int __call(lua_State *L) {
 			int isint = false;
 			int i = lua_tointegerx(L, 2, &isint);
 			if (!isint) {
-				return luaL_argerror(L, 2, "Argument needs to be an integer");
+				return luaX_typeerror(L, 2, NULL, "integer");
 			}
 
 			if (i < 1 || i > rows()) {
@@ -574,7 +574,7 @@ namespace LuaEigen {
 			isint = false;
 			int j = lua_tointegerx(L, 3, &isint);
 			if (!isint) {
-				return luaL_argerror(L, 3, "Argument needs to be an integer");
+				return luaX_typeerror(L, 3, NULL, "integer");
 			}
 
 			if (j < 1 || j > cols()) {
