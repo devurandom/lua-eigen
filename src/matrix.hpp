@@ -519,6 +519,31 @@ namespace LuaEigen {
 				return luaL_argerror(L, 2, "Cannot index a matrix using one integer alone");
 			}
 
+			if (lua_type(L, 2) == LUA_TTABLE) {
+				lua_rawgeti(L, 2, 1);
+				isint = false;
+				int i = lua_tointegerx(L, -1, &isint);
+				if (!isint) {
+					return luaX_typeerror(L, 2, NULL, "{integer, integer}");
+				}
+				if (i < 1 || i > rows()) {
+					return luaL_argerror(L, 2, "Index needs to be >= 1 and <= rows()");
+				}
+
+				lua_rawgeti(L, 2, 2);
+				isint = false;
+				int j = lua_tointegerx(L, -1, &isint);
+				if (!isint) {
+					return luaX_typeerror(L, 2, NULL, "{integer, integer}");
+				}
+				if (j < 1 || j > cols()) {
+					return luaL_argerror(L, 2, "Index needs to be >= 1 and <= cols()");
+				}
+
+				lua_pushnumber(L, (*this)(i-1,j-1));
+				return 1;
+			}
+
 			const char *identifier = lua_tostring(L, 2);
 			if (identifier) {
 				/* FIXME: HUGE HACK!!! But we need to access the method table somehow, without triggering ourselves... */
@@ -529,7 +554,7 @@ namespace LuaEigen {
 				return 1;
 			}
 
-			return luaX_typeerror(L, 2, NULL, "integer or string");
+			return luaX_typeerror(L, 2, NULL, "integer, table or string");
 		}
 
 		int __newindex(lua_State *L) {
@@ -553,11 +578,36 @@ namespace LuaEigen {
 				return luaL_argerror(L, 2, "Cannot index a matrix using one integer alone");
 			}
 
+			if (lua_type(L, 2) == LUA_TTABLE) {
+				lua_rawgeti(L, 2, 1);
+				isint = false;
+				int i = lua_tointegerx(L, -1, &isint);
+				if (!isint) {
+					return luaX_typeerror(L, 2, NULL, "{integer, integer}");
+				}
+				if (i < 1 || i > rows()) {
+					return luaL_argerror(L, 2, "Index needs to be >= 1 and <= rows()");
+				}
+
+				lua_rawgeti(L, 2, 2);
+				isint = false;
+				int j = lua_tointegerx(L, -1, &isint);
+				if (!isint) {
+					return luaX_typeerror(L, 2, NULL, "{integer, integer}");
+				}
+				if (j < 1 || j > cols()) {
+					return luaL_argerror(L, 2, "Index needs to be >= 1 and <= cols()");
+				}
+
+				(*this)(i-1,j-1) = luaL_checknumber(L, 3);
+				return 0;
+			}
+
 			if (lua_type(L, 2) == LUA_TSTRING) {
 				return Lunar<Type>::newindex_T(L);
 			}
 
-			return luaX_typeerror(L, 2, NULL, "integer or string");
+			return luaX_typeerror(L, 2, NULL, "integer, table or string");
 		}
 
 		int __call(lua_State *L) {
