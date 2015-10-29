@@ -225,19 +225,43 @@ namespace LuaEigen {
 					return 1;
 				}
 
-				typedef Matrix<Scalar, ColsAtCompileTime, 1> Op2VectorType;
-				Op2VectorType *op2v = Lunar<Op2VectorType>::test(L, 2);
-				if (op2v != nullptr) {
+				typedef Matrix<Scalar, ColsAtCompileTime, 1> Op2MatrixN1Type;
+				Op2MatrixN1Type *op2mN1 = Lunar<Op2MatrixN1Type>::test(L, 2);
+				if (op2mN1 != nullptr) {
 					typedef Matrix<Scalar, RowsAtCompileTime, 1> ResultType;
-					Lunar<ResultType>::push(L, new ResultType((*op1) * (*op2v)), true);
+					Lunar<ResultType>::push(L, new ResultType((*op1) * (*op2mN1)), true);
 					return 1;
 				}
 
-				typedef Matrix<Scalar, ColsAtCompileTime, ColsAtCompileTime> Op2QuadraticMatrixType;
-				Op2QuadraticMatrixType *op2mq = Lunar<Op2QuadraticMatrixType>::test(L, 2);
-				if (op2mq != nullptr) {
-					typedef Matrix<Scalar, RowsAtCompileTime, ColsAtCompileTime> ResultType;
-					Lunar<ResultType>::push(L, new ResultType((*op1) * (*op2mq)), true);
+				typedef Matrix<Scalar, ColsAtCompileTime, 2> Op2MatrixN2Type;
+				Op2MatrixN2Type *op2mN2 = Lunar<Op2MatrixN2Type>::test(L, 2);
+				if (op2mN2 != nullptr) {
+					typedef Matrix<Scalar, RowsAtCompileTime, 2> ResultType;
+					Lunar<ResultType>::push(L, new ResultType((*op1) * (*op2mN2)), true);
+					return 1;
+				}
+
+				typedef Matrix<Scalar, ColsAtCompileTime, 3> Op2MatrixN3Type;
+				Op2MatrixN3Type *op2mN3 = Lunar<Op2MatrixN3Type>::test(L, 2);
+				if (op2mN3 != nullptr) {
+					typedef Matrix<Scalar, RowsAtCompileTime, 3> ResultType;
+					Lunar<ResultType>::push(L, new ResultType((*op1) * (*op2mN3)), true);
+					return 1;
+				}
+
+				typedef Matrix<Scalar, ColsAtCompileTime, 4> Op2MatrixN4Type;
+				Op2MatrixN4Type *op2mN4 = Lunar<Op2MatrixN4Type>::test(L, 2);
+				if (op2mN4 != nullptr) {
+					typedef Matrix<Scalar, RowsAtCompileTime, 4> ResultType;
+					Lunar<ResultType>::push(L, new ResultType((*op1) * (*op2mN4)), true);
+					return 1;
+				}
+
+				typedef Matrix<Scalar, ColsAtCompileTime, Eigen::Dynamic> Op2MatrixNXType;
+				Op2MatrixNXType *op2mNX = Lunar<Op2MatrixNXType>::test(L, 2);
+				if (op2mNX != nullptr) {
+					typedef Matrix<Scalar, RowsAtCompileTime, Eigen::Dynamic> ResultType;
+					Lunar<ResultType>::push(L, new ResultType((*op1) * (*op2mNX)), true);
 					return 1;
 				}
 
@@ -254,11 +278,43 @@ namespace LuaEigen {
 					return 1;
 				}
 
-				typedef Matrix<Scalar, RowsAtCompileTime, RowsAtCompileTime> Op1QuadraticMatrixType;
-				Op1QuadraticMatrixType *op1mq = Lunar<Op1QuadraticMatrixType>::test(L, 1);
-				if (op1mq != nullptr) {
-					typedef Matrix<Scalar, RowsAtCompileTime, ColsAtCompileTime> ResultType;
-					Lunar<ResultType>::push(L, new ResultType((*op1mq) * (*op2)), true);
+				typedef Matrix<Scalar, 1, RowsAtCompileTime> Op1Matrix1NType;
+				Op1Matrix1NType *op1m1N = Lunar<Op1Matrix1NType>::test(L, 2);
+				if (op1m1N != nullptr) {
+					typedef Matrix<Scalar, 1, ColsAtCompileTime> ResultType;
+					Lunar<ResultType>::push(L, new ResultType((*op1m1N) * (*op2)), true);
+					return 1;
+				}
+
+				typedef Matrix<Scalar, 2, RowsAtCompileTime> Op1Matrix2NType;
+				Op1Matrix2NType *op1m2N = Lunar<Op1Matrix2NType>::test(L, 2);
+				if (op1m2N != nullptr) {
+					typedef Matrix<Scalar, 2, ColsAtCompileTime> ResultType;
+					Lunar<ResultType>::push(L, new ResultType((*op1m2N) * (*op2)), true);
+					return 1;
+				}
+
+				typedef Matrix<Scalar, 3, RowsAtCompileTime> Op1Matrix3NType;
+				Op1Matrix3NType *op1m3N = Lunar<Op1Matrix3NType>::test(L, 2);
+				if (op1m3N != nullptr) {
+					typedef Matrix<Scalar, 3, ColsAtCompileTime> ResultType;
+					Lunar<ResultType>::push(L, new ResultType((*op1m3N) * (*op2)), true);
+					return 1;
+				}
+
+				typedef Matrix<Scalar, 4, RowsAtCompileTime> Op1Matrix4NType;
+				Op1Matrix4NType *op1m4N = Lunar<Op1Matrix4NType>::test(L, 2);
+				if (op1m4N != nullptr) {
+					typedef Matrix<Scalar, 4, ColsAtCompileTime> ResultType;
+					Lunar<ResultType>::push(L, new ResultType((*op1m4N) * (*op2)), true);
+					return 1;
+				}
+
+				typedef Matrix<Scalar, Eigen::Dynamic, RowsAtCompileTime> Op1MatrixXNType;
+				Op1MatrixXNType *op1mXN = Lunar<Op1MatrixXNType>::test(L, 2);
+				if (op1mXN != nullptr) {
+					typedef Matrix<Scalar, Eigen::Dynamic, ColsAtCompileTime> ResultType;
+					Lunar<ResultType>::push(L, new ResultType((*op1mXN) * (*op2)), true);
 					return 1;
 				}
 
