@@ -480,11 +480,37 @@ namespace LuaEigen {
 	typedef Segment<VectorXf, 2, 1> SegmentXf2;
 	typedef Segment<VectorXf, 3, 1> SegmentXf3;
 
+	typedef Matrix<float, 1, 2> Vector2Tf;
+	typedef Matrix<float, 1, 3> Vector3Tf;
+	typedef Matrix<float, 1, 4> Vector4Tf;
+	typedef Matrix<float, 1, Eigen::Dynamic> VectorXTf;
+
+	typedef Segment<VectorXTf, 1, 2> SegmentXTf2;
+	typedef Segment<VectorXTf, 1, 3> SegmentXTf3;
+
 	typedef Matrix<float, 1, 1> Matrix1f;
 	typedef Matrix<float, 2, 2> Matrix2f;
 	typedef Matrix<float, 3, 3> Matrix3f;
 	typedef Matrix<float, 4, 4> Matrix4f;
 	typedef Matrix<float, Eigen::Dynamic, Eigen::Dynamic> MatrixXf;
+
+	typedef Matrix<float, 2, Eigen::Dynamic> Matrix2Xf;
+	typedef Matrix<float, 3, Eigen::Dynamic> Matrix3Xf;
+	typedef Matrix<float, 4, Eigen::Dynamic> Matrix4Xf;
+
+	typedef Matrix<float, Eigen::Dynamic, 2> MatrixX2f;
+	typedef Matrix<float, Eigen::Dynamic, 3> MatrixX3f;
+	typedef Matrix<float, Eigen::Dynamic, 4> MatrixX4f;
+
+	typedef Matrix<float, 3, 2> Matrix32f;
+
+	typedef Matrix<float, 2, 3> Matrix23f;
+
+	typedef Matrix<float, 2, 4> Matrix24f;
+	typedef Matrix<float, 3, 4> Matrix34f;
+
+	typedef Matrix<float, 4, 2> Matrix42f;
+	typedef Matrix<float, 4, 3> Matrix43f;
 
 	template<>
 	int VectorXf::oninit(lua_State *L);
@@ -494,9 +520,46 @@ namespace LuaEigen {
 	int VectorXf::resize(lua_State *L);
 
 	template<>
+	int VectorXTf::onpush(lua_State *L);
+	template<>
+	int VectorXTf::oninit(lua_State *L);
+	template<>
+	int VectorXTf::resize(lua_State *L);
+
+	template<>
 	int MatrixXf::oninit(lua_State *L);
 	template<>
 	int MatrixXf::resize(lua_State *L);
+
+	template<>
+	int Matrix2Xf::oninit(lua_State *L);
+	template<>
+	int Matrix2Xf::resize(lua_State *L);
+
+	template<>
+	int Matrix3Xf::oninit(lua_State *L);
+	template<>
+	int Matrix3Xf::resize(lua_State *L);
+
+	template<>
+	int Matrix4Xf::oninit(lua_State *L);
+	template<>
+	int Matrix4Xf::resize(lua_State *L);
+
+	template<>
+	int MatrixX2f::oninit(lua_State *L);
+	template<>
+	int MatrixX2f::resize(lua_State *L);
+
+	template<>
+	int MatrixX3f::oninit(lua_State *L);
+	template<>
+	int MatrixX3f::resize(lua_State *L);
+
+	template<>
+	int MatrixX4f::oninit(lua_State *L);
+	template<>
+	int MatrixX4f::resize(lua_State *L);
 }
 
 #endif
