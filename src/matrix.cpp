@@ -37,6 +37,80 @@
 
 namespace LuaEigen {
 	template<>
+	const char Vector2f::className[] = "Vector2f";
+	template<>
+	const LunarType<Vector2f>::Reg Vector2f::methods[] = {
+		VECTOR_METHODS(Vector2f),
+		LUNAR_METHOD(Vector2f, x),
+		LUNAR_METHOD(Vector2f, y),
+		{NULL, NULL}
+	};
+
+	template<>
+	const char Vector3f::className[] = "Vector3f";
+	template<>
+	const LunarType<Vector3f>::Reg Vector3f::methods[] = {
+		VECTOR_METHODS(Vector3f),
+		LUNAR_METHOD(Vector3f, x),
+		LUNAR_METHOD(Vector3f, y),
+		LUNAR_METHOD(Vector3f, z),
+		LUNAR_METHOD(Vector3f, cross),
+		{NULL, NULL}
+	};
+
+	template<>
+	const char Vector4f::className[] = "Vector4f";
+	template<>
+	const LunarType<Vector4f>::Reg Vector4f::methods[] = {
+		VECTOR_METHODS(Vector4f),
+		LUNAR_METHOD(Vector4f, x),
+		LUNAR_METHOD(Vector4f, y),
+		LUNAR_METHOD(Vector4f, z),
+		LUNAR_METHOD(Vector4f, w),
+		{NULL, NULL}
+	};
+
+	template<>
+	int VectorXf::onpush(lua_State *L) {
+		const int instance = lua_absindex(L, -1);
+		Lunar<Segment<Type, 2>>::push(L, new Segment<Type, 2>(this), true);
+		lua_setfield(L, instance, "segment2");
+		Lunar<Segment<Type, 3>>::push(L, new Segment<Type, 3>(this), true);
+		lua_setfield(L, instance, "segment3");
+		return 0;
+	}
+	template<>
+	int VectorXf::resize(lua_State *L) {
+		int isnum = false;
+		float n = lua_tonumberx(L, 2, &isnum);
+		if (!isnum) {
+			return luaL_argerror(L, 2, "Argument must be a number");
+		}
+		resize(n);
+		setZero();
+		return 0;
+	}
+	template<>
+	int VectorXf::oninit(lua_State *L) {
+		Type *o = Lunar<Type>::test(L, 2);
+		if (o != nullptr) {
+			*this = *o;
+		}
+		else {
+			resize(L);
+		}
+		return 0;
+	}
+	template<>
+	const char VectorXf::className[] = "VectorXf";
+	template<>
+	const LunarType<VectorXf>::Reg VectorXf::methods[] = {
+		VECTOR_METHODS(VectorXf),
+		LUNAR_METHOD(VectorXf, resize),
+		{NULL, NULL}
+	};
+
+	template<>
 	const char SegmentXf2::className[] = "SegmentXf2";
 	template<>
 	const LunarType<SegmentXf2>::Reg SegmentXf2::methods[] = {
@@ -116,80 +190,6 @@ namespace LuaEigen {
 	const LunarType<MatrixXf>::Reg MatrixXf::methods[] = {
 		MATRIX_METHODS(MatrixXf),
 		LUNAR_METHOD(MatrixXf, resize),
-		{NULL, NULL}
-	};
-
-	template<>
-	const char Vector2f::className[] = "Vector2f";
-	template<>
-	const LunarType<Vector2f>::Reg Vector2f::methods[] = {
-		VECTOR_METHODS(Vector2f),
-		LUNAR_METHOD(Vector2f, x),
-		LUNAR_METHOD(Vector2f, y),
-		{NULL, NULL}
-	};
-
-	template<>
-	const char Vector3f::className[] = "Vector3f";
-	template<>
-	const LunarType<Vector3f>::Reg Vector3f::methods[] = {
-		VECTOR_METHODS(Vector3f),
-		LUNAR_METHOD(Vector3f, x),
-		LUNAR_METHOD(Vector3f, y),
-		LUNAR_METHOD(Vector3f, z),
-		LUNAR_METHOD(Vector3f, cross),
-		{NULL, NULL}
-	};
-
-	template<>
-	const char Vector4f::className[] = "Vector4f";
-	template<>
-	const LunarType<Vector4f>::Reg Vector4f::methods[] = {
-		VECTOR_METHODS(Vector4f),
-		LUNAR_METHOD(Vector4f, x),
-		LUNAR_METHOD(Vector4f, y),
-		LUNAR_METHOD(Vector4f, z),
-		LUNAR_METHOD(Vector4f, w),
-		{NULL, NULL}
-	};
-
-	template<>
-	int VectorXf::onpush(lua_State *L) {
-		const int instance = lua_absindex(L, -1);
-		Lunar<Segment<Type, 2>>::push(L, new Segment<Type, 2>(this), true);
-		lua_setfield(L, instance, "segment2");
-		Lunar<Segment<Type, 3>>::push(L, new Segment<Type, 3>(this), true);
-		lua_setfield(L, instance, "segment3");
-		return 0;
-	}
-	template<>
-	int VectorXf::resize(lua_State *L) {
-		int isnum = false;
-		float n = lua_tonumberx(L, 2, &isnum);
-		if (!isnum) {
-			return luaL_argerror(L, 2, "Argument must be a number");
-		}
-		resize(n);
-		setZero();
-		return 0;
-	}
-	template<>
-	int VectorXf::oninit(lua_State *L) {
-		Type *o = Lunar<Type>::test(L, 2);
-		if (o != nullptr) {
-			*this = *o;
-		}
-		else {
-			resize(L);
-		}
-		return 0;
-	}
-	template<>
-	const char VectorXf::className[] = "VectorXf";
-	template<>
-	const LunarType<VectorXf>::Reg VectorXf::methods[] = {
-		VECTOR_METHODS(VectorXf),
-		LUNAR_METHOD(VectorXf, resize),
 		{NULL, NULL}
 	};
 }

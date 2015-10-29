@@ -472,14 +472,15 @@ namespace LuaEigen {
 	typedef Matrix<float, 3, 1> Vector3f;
 	typedef Matrix<float, 4, 1> Vector4f;
 	typedef Matrix<float, Eigen::Dynamic, 1> VectorXf;
+
+	typedef Segment<VectorXf, 2> SegmentXf2;
+	typedef Segment<VectorXf, 3> SegmentXf3;
+
 	typedef Matrix<float, 1, 1> Matrix1f;
 	typedef Matrix<float, 2, 2> Matrix2f;
 	typedef Matrix<float, 3, 3> Matrix3f;
 	typedef Matrix<float, 4, 4> Matrix4f;
 	typedef Matrix<float, Eigen::Dynamic, Eigen::Dynamic> MatrixXf;
-
-	typedef Segment<VectorXf, 2> SegmentXf2;
-	typedef Segment<VectorXf, 3> SegmentXf3;
 
 	template<>
 	int VectorXf::oninit(lua_State *L);

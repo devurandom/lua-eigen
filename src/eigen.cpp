@@ -64,11 +64,6 @@ extern "C" int luaopen_eigen(lua_State *L) {
 	using LuaEigen::AngleAxisf;
 	using LuaEigen::Quaternionf;
 
-	using LuaEigen::Matrix2f;
-	using LuaEigen::Matrix3f;
-	using LuaEigen::Matrix4f;
-	using LuaEigen::MatrixXf;
-
 	using LuaEigen::Vector2f;
 	using LuaEigen::Vector3f;
 	using LuaEigen::Vector4f;
@@ -76,6 +71,11 @@ extern "C" int luaopen_eigen(lua_State *L) {
 
 	using LuaEigen::SegmentXf2;
 	using LuaEigen::SegmentXf3;
+
+	using LuaEigen::Matrix2f;
+	using LuaEigen::Matrix3f;
+	using LuaEigen::Matrix4f;
+	using LuaEigen::MatrixXf;
 
 	using LuaEigen::ConjugateGradient1f;
 	using LuaEigen::ConjugateGradient2f;
@@ -91,11 +91,6 @@ extern "C" int luaopen_eigen(lua_State *L) {
 	Lunar<AngleAxisf>::Register(L);
 	Lunar<Quaternionf>::Register(L);
 
-	Lunar<Matrix2f>::Register(L);
-	Lunar<Matrix3f>::Register(L);
-	Lunar<Matrix4f>::Register(L);
-	Lunar<MatrixXf>::Register(L);
-
 	Lunar<Vector2f>::Register(L);
 	Lunar<Vector3f>::Register(L);
 	Lunar<Vector4f>::Register(L);
@@ -103,6 +98,11 @@ extern "C" int luaopen_eigen(lua_State *L) {
 
 	Lunar<SegmentXf2>::Register(L);
 	Lunar<SegmentXf3>::Register(L);
+
+	Lunar<Matrix2f>::Register(L);
+	Lunar<Matrix3f>::Register(L);
+	Lunar<Matrix4f>::Register(L);
+	Lunar<MatrixXf>::Register(L);
 
 	Lunar<ConjugateGradient1f>::Register(L);
 	Lunar<ConjugateGradient2f>::Register(L);
