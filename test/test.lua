@@ -1,3 +1,5 @@
+local eigen = require "eigen"
+
 local mi = eigen.Matrix4f(
 	1, 0, 0, 0,
 	0, 1, 0, 0,
