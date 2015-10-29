@@ -35,7 +35,7 @@ namespace LuaEigen {
 		int __newindex(lua_State *L) {
 			int base_row = luaL_checkinteger(L, 2);
 			if (SegmentType::iscompat(L, 3)) {
-				float table[_Size];
+				float table[_Size] = {0.0};
 				if (SegmentType::fromtable(L, 3, table) == 0) {
 					return luaL_argerror(L, 3, "Argument must be a VectorNf or a table of N numbers");
 				}
@@ -125,7 +125,7 @@ namespace LuaEigen {
 			}
 			else if (l_nargs == 2) {
 				if (iscompat(L, 2)) {
-					float table[RowsAtCompileTime*ColsAtCompileTime];
+					float table[RowsAtCompileTime*ColsAtCompileTime] = {0.0};
 					if (fromtable(L, 2, table) == 0) {
 						return luaL_argerror(L, 2, "Argument must be a table of N numbers");
 					}
