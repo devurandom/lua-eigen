@@ -15,6 +15,10 @@
 	LUNAR_METHOD(type, __index), \
 	LUNAR_METHOD(type, __newindex), \
 	LUNAR_METHOD(type, __tostring), \
+	LUNAR_METHOD(type, add), \
+	LUNAR_METHOD(type, sub), \
+	LUNAR_METHOD(type, mul), \
+	LUNAR_METHOD(type, div), \
 	LUNAR_METHOD(type, rows), \
 	LUNAR_METHOD(type, cols), \
 	LUNAR_METHOD(type, size), \

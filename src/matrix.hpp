@@ -201,6 +201,162 @@ namespace LuaEigen {
 			return 1;
 		}
 
+		static int argerror(lua_State *L, int self, int op1, int op2) {
+			const char *msg = lua_pushfstring(L, "'%s' is not a valid target for this operation: type(op1)='%s', type(op2)='%s'", luaX_typename(L, self), luaX_typename(L, op1), luaX_typename(L, op2));
+			return luaL_argerror(L, self, msg);
+		}
+
+		int add(lua_State *L) {
+			Type *op1 = Lunar<Type>::check(L, 2);
+			Type *op2 = Lunar<Type>::check(L, 3);
+			*this = (*op1) + (*op2);
+			lua_pop(L, 2);
+			return 1;
+		}
+
+		int sub(lua_State *L) {
+			Type *op1 = Lunar<Type>::check(L, 2);
+			Type *op2 = Lunar<Type>::check(L, 3);
+			*this = (*op1) - (*op2);
+			lua_pop(L, 2);
+			return 1;
+		}
+
+		int mul(lua_State *L) {
+			const int self_idx = 1;
+			const int op1_idx = 2;
+			const int op2_idx = 3;
+
+			int isnum = false;
+			Scalar op1s = lua_tonumberx(L, op1_idx, &isnum);
+			if (isnum) {
+				int isnum = false;
+				Scalar op2s = lua_tonumberx(L, op2_idx, &isnum);
+				if (isnum) {
+					if (RowsAtCompileTime == 1 && ColsAtCompileTime == 1) {
+						(*this)(0,0) = op1s * op2s;
+						lua_pop(L, 2);
+						return 1;
+					}
+
+					return argerror(L, self_idx, op1_idx, op2_idx);
+				}
+
+				typedef Matrix<Scalar, RowsAtCompileTime, ColsAtCompileTime> Op2MatrixType;
+				Op2MatrixType *op2m = Lunar<Op2MatrixType>::test(L, op2_idx);
+				if (op2m != nullptr) {
+					*this = op1s * (*op2m);
+					lua_pop(L, 2);
+					return 1;
+				}
+
+				return argerror(L, self_idx, op1_idx, op2_idx);
+			}
+
+			/* Catch a matching matrix size early, because (contrary to all other operations) it allows multiplication with a scalar */
+			typedef Matrix<Scalar, RowsAtCompileTime, ColsAtCompileTime> Op1MatrixType;
+			Op1MatrixType *op1m = Lunar<Op1MatrixType>::test(L, op1_idx);
+			if (op1m != nullptr) {
+				int isnum = false;
+				Scalar op2s = lua_tonumberx(L, op2_idx, &isnum);
+				if (isnum) {
+					*this = (*op1m) * op2s;
+					lua_pop(L, 2);
+					return 1;
+				}
+
+				typedef Matrix<Scalar, ColsAtCompileTime, ColsAtCompileTime> Op2MatrixType;
+				Op2MatrixType *op2m = Lunar<Op2MatrixType>::test(L, op2_idx);
+				if (op2m != nullptr) {
+					*this = (*op1m) * (*op2m);
+					lua_pop(L, 2);
+					return 1;
+				}
+
+				return argerror(L, self_idx, op1_idx, op2_idx);
+			}
+
+			typedef Matrix<Scalar, RowsAtCompileTime, 1> Op1MatrixN1Type;
+			Op1MatrixN1Type *op1mN1 = Lunar<Op1MatrixN1Type>::test(L, op1_idx);
+			if (op1mN1 != nullptr) {
+				typedef Matrix<Scalar, 1, ColsAtCompileTime> Op2Matrix1NType;
+				Op2Matrix1NType *op2m1N = Lunar<Op2Matrix1NType>::test(L, op2_idx);
+				if (op2m1N != nullptr) {
+					*this = (*op1mN1) * (*op2m1N);
+					lua_pop(L, 2);
+					return 1;
+				}
+
+				return argerror(L, self_idx, op1_idx, op2_idx);
+			}
+
+			typedef Matrix<Scalar, RowsAtCompileTime, 2> Op1MatrixN2Type;
+			Op1MatrixN2Type *op1mN2 = Lunar<Op1MatrixN2Type>::test(L, op1_idx);
+			if (op1mN2 != nullptr) {
+				typedef Matrix<Scalar, 2, ColsAtCompileTime> Op2Matrix2NType;
+				Op2Matrix2NType *op2m2N = Lunar<Op2Matrix2NType>::test(L, op2_idx);
+				if (op2m2N != nullptr) {
+					*this = (*op1mN2) * (*op2m2N);
+					lua_pop(L, 2);
+					return 1;
+				}
+
+				return argerror(L, self_idx, op1_idx, op2_idx);
+			}
+
+			typedef Matrix<Scalar, RowsAtCompileTime, 3> Op1MatrixN3Type;
+			Op1MatrixN3Type *op1mN3 = Lunar<Op1MatrixN3Type>::test(L, op1_idx);
+			if (op1mN3 != nullptr) {
+				typedef Matrix<Scalar, 3, ColsAtCompileTime> Op2Matrix3NType;
+				Op2Matrix3NType *op2m3N = Lunar<Op2Matrix3NType>::test(L, op2_idx);
+				if (op2m3N != nullptr) {
+					*this = (*op1mN3) * (*op2m3N);
+					lua_pop(L, 2);
+					return 1;
+				}
+
+				return argerror(L, self_idx, op1_idx, op2_idx);
+			}
+
+			typedef Matrix<Scalar, RowsAtCompileTime, 4> Op1MatrixN4Type;
+			Op1MatrixN4Type *op1mN4 = Lunar<Op1MatrixN4Type>::test(L, op1_idx);
+			if (op1mN4 != nullptr) {
+				typedef Matrix<Scalar, 4, ColsAtCompileTime> Op2Matrix4NType;
+				Op2Matrix4NType *op2m4N = Lunar<Op2Matrix4NType>::test(L, op2_idx);
+				if (op2m4N != nullptr) {
+					*this = (*op1mN4) * (*op2m4N);
+					lua_pop(L, 2);
+					return 1;
+				}
+
+				return argerror(L, self_idx, op1_idx, op2_idx);
+			}
+
+			typedef Matrix<Scalar, RowsAtCompileTime, Eigen::Dynamic> Op1MatrixNXType;
+			Op1MatrixNXType *op1NX = Lunar<Op1MatrixNXType>::test(L, op1_idx);
+			if (op1NX != nullptr) {
+				typedef Matrix<Scalar, Eigen::Dynamic, ColsAtCompileTime> Op2MatrixXNType;
+				Op2MatrixXNType *op2mXN = Lunar<Op2MatrixXNType>::test(L, op2_idx);
+				if (op2mXN != nullptr) {
+					*this = (*op1NX) * (*op2mXN);
+					lua_pop(L, 2);
+					return 1;
+				}
+
+				return argerror(L, self_idx, op1_idx, op2_idx);
+			}
+
+			return argerror(L, self_idx, op1_idx, op2_idx);
+		}
+
+		int div(lua_State *L) {
+			Type *op1 = Lunar<Type>::check(L, 2);
+			Scalar op2s = luaL_checknumber(L, 3);
+			*this = (*op1) / op2s;
+			lua_pop(L, 2);
+			return 1;
+		}
+
 		int __add(lua_State *L) {
 			Type *op1 = Lunar<Type>::check(L, 1);
 			Type *op2 = Lunar<Type>::check(L, 2);
