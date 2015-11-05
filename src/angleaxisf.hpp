@@ -32,7 +32,7 @@ namespace LuaEigen {
 			return Base::operator=(o);
 		}
 
-		int init(lua_State *L);
+		int oninit(lua_State *L);
 
 		int __mul(lua_State *L);
 		int __tostring(lua_State *L);

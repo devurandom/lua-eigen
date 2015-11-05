@@ -14,7 +14,7 @@ namespace LuaEigen {
 	Quaternionf::~Quaternionf()
 	{}
 
-	int Quaternionf::init(lua_State *L) {
+	int Quaternionf::oninit(lua_State *L) {
 		float w = luaL_checknumber(L, 2);
 		float x = luaL_checknumber(L, 3);
 		float y = luaL_checknumber(L, 4);

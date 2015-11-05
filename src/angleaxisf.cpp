@@ -15,7 +15,7 @@ namespace LuaEigen {
 	{}
 
 
-	int AngleAxisf::init(lua_State *L) {
+	int AngleAxisf::oninit(lua_State *L) {
 		float angle = luaL_checknumber(L, 2);
 		Vector3f *axis = Lunar<Vector3f>::check(L, 3);
 

@@ -115,9 +115,9 @@ namespace LuaEigen {
 			return *this;
 		}
 
-		int prep(lua_State *L) { return 0; }
+		int onpush(lua_State *L) { return 0; }
 
-		int init(lua_State *L) {
+		int oninit(lua_State *L) {
 			int l_nargs = lua_gettop(L);
 
 			if (l_nargs == 1) {
@@ -482,14 +482,14 @@ namespace LuaEigen {
 	typedef Segment<VectorXf, 3> SegmentXf3;
 
 	template<>
-	int VectorXf::prep(lua_State *L);
+	int VectorXf::oninit(lua_State *L);
 	template<>
-	int VectorXf::init(lua_State *L);
+	int VectorXf::onpush(lua_State *L);
 	template<>
 	int VectorXf::resize(lua_State *L);
 
 	template<>
-	int MatrixXf::init(lua_State *L);
+	int MatrixXf::oninit(lua_State *L);
 	template<>
 	int MatrixXf::resize(lua_State *L);
 }

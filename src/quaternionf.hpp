@@ -23,7 +23,7 @@ namespace LuaEigen {
 		Quaternionf(const Eigen::MatrixBase<Derived> &o) : Base(o) {}
 		~Quaternionf();
 
-		int init(lua_State *L);
+		int oninit(lua_State *L);
 
 		int __mul(lua_State *L);
 		int __tostring(lua_State *L);

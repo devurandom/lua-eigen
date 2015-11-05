@@ -100,7 +100,7 @@ namespace LuaEigen {
 		return 0;
 	}
 	template<>
-	int MatrixXf::init(lua_State *L) {
+	int MatrixXf::oninit(lua_State *L) {
 		Type *o = Lunar<Type>::test(L, 2);
 		if (o != nullptr) {
 			*this = *o;
@@ -154,7 +154,7 @@ namespace LuaEigen {
 	};
 
 	template<>
-	int VectorXf::prep(lua_State *L) {
+	int VectorXf::onpush(lua_State *L) {
 		const int instance = lua_absindex(L, -1);
 		Lunar<Segment<Type, 2>>::push(L, new Segment<Type, 2>(this), true);
 		lua_setfield(L, instance, "segment2");
@@ -174,7 +174,7 @@ namespace LuaEigen {
 		return 0;
 	}
 	template<>
-	int VectorXf::init(lua_State *L) {
+	int VectorXf::oninit(lua_State *L) {
 		Type *o = Lunar<Type>::test(L, 2);
 		if (o != nullptr) {
 			*this = *o;
