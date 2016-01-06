@@ -119,6 +119,15 @@ namespace LuaEigen {
 			return *this;
 		}
 
+		static int onregister(lua_State *L) {
+			static const int l_methods = lua_absindex(L, -2);
+			lua_pushinteger(L, RowsAtCompileTime);                       // [-0,+1,-]
+			lua_setfield(L, l_methods, "rowsatcompiletime");             // [-1,+0,e]
+			lua_pushinteger(L, ColsAtCompileTime);                       // [-0,+1,-]
+			lua_setfield(L, l_methods, "colsatcompiletime");             // [-1,+0,e]
+			return 0;
+		}
+
 		int onpush(lua_State *L) { return 0; }
 
 		int oninit(lua_State *L) {
