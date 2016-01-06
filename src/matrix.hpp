@@ -527,7 +527,7 @@ namespace LuaEigen {
 					return luaX_typeerror(L, 2, NULL, "{integer, integer}");
 				}
 				if (i < 1 || i > rows()) {
-					return luaL_argerror(L, 2, "Index needs to be >= 1 and <= rows()");
+					return luaL_argerror(L, 2, "First index needs to be >= 1 and <= rows()");
 				}
 
 				lua_rawgeti(L, 2, 2);
@@ -537,7 +537,7 @@ namespace LuaEigen {
 					return luaX_typeerror(L, 2, NULL, "{integer, integer}");
 				}
 				if (j < 1 || j > cols()) {
-					return luaL_argerror(L, 2, "Index needs to be >= 1 and <= cols()");
+					return luaL_argerror(L, 2, "Second index needs to be >= 1 and <= cols()");
 				}
 
 				lua_pushnumber(L, (*this)(i-1,j-1));
@@ -586,7 +586,7 @@ namespace LuaEigen {
 					return luaX_typeerror(L, 2, NULL, "{integer, integer}");
 				}
 				if (i < 1 || i > rows()) {
-					return luaL_argerror(L, 2, "Index needs to be >= 1 and <= rows()");
+					return luaL_argerror(L, 2, "First index needs to be >= 1 and <= rows()");
 				}
 
 				lua_rawgeti(L, 2, 2);
@@ -596,7 +596,7 @@ namespace LuaEigen {
 					return luaX_typeerror(L, 2, NULL, "{integer, integer}");
 				}
 				if (j < 1 || j > cols()) {
-					return luaL_argerror(L, 2, "Index needs to be >= 1 and <= cols()");
+					return luaL_argerror(L, 2, "Second index needs to be >= 1 and <= cols()");
 				}
 
 				(*this)(i-1,j-1) = luaL_checknumber(L, 3);
@@ -618,7 +618,7 @@ namespace LuaEigen {
 			}
 
 			if (i < 1 || i > rows()) {
-				return luaL_argerror(L, 2, "Index needs to be >= 1 and <= rows()");
+				return luaL_argerror(L, 2, "First index needs to be >= 1 and <= rows()");
 			}
 
 			isint = false;
@@ -628,7 +628,7 @@ namespace LuaEigen {
 			}
 
 			if (j < 1 || j > cols()) {
-				return luaL_argerror(L, 3, "Index needs to be >= 1 and <= cols()");
+				return luaL_argerror(L, 3, "Second index needs to be >= 1 and <= cols()");
 			}
 
 			switch (lua_gettop(L)) {
