@@ -75,11 +75,13 @@ namespace LuaEigen {
 
 	template<>
 	int VectorXf::onpush(lua_State *L) {
+		const int l_self = lua_absindex(L, -1);
 		Lunar<Type>::extend(L);                                     // [-0,+0,e]
 		Lunar<Segment<Type, 2, 1>>::push(L, new Segment<Type, 2, 1>(this), true); // [-0,+1,e]
-		lua_setfield(L, -2, "segment2");                            // [-1,+0,e]
+		lua_setfield(L, l_self, "segment2");                        // [-1,+0,e]
 		Lunar<Segment<Type, 3, 1>>::push(L, new Segment<Type, 3, 1>(this), true); // [-0,+1,e]
-		lua_setfield(L, -2, "segment3");                            // [-1,+0,e]
+		lua_setfield(L, l_self, "segment3");                        // [-1,+0,e]
+		assert(l_self == lua_gettop(L));
 		return 0;
 	}
 	template<>
@@ -165,11 +167,13 @@ namespace LuaEigen {
 
 	template<>
 	int VectorXTf::onpush(lua_State *L) {
+		const int l_self = lua_absindex(L, -1);
 		Lunar<Type>::extend(L);                                     // [-0,+0,e]
 		Lunar<Segment<Type, 1, 2>>::push(L, new Segment<Type, 1, 2>(this), true); // [-0,+1,e]
-		lua_setfield(L, -2, "segment2");                            // [-1,+0,e]
+		lua_setfield(L, l_self, "segment2");                        // [-1,+0,e]
 		Lunar<Segment<Type, 1, 3>>::push(L, new Segment<Type, 1, 3>(this), true); // [-0,+1,e]
-		lua_setfield(L, -2, "segment3");                            // [-1,+0,e]
+		lua_setfield(L, l_self, "segment3");                        // [-1,+0,e]
+		assert(l_self == lua_gettop(L));
 		return 0;
 	}
 	template<>
