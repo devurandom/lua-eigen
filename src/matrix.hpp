@@ -757,9 +757,9 @@ namespace LuaEigen {
 	typedef Matrix<float, 4, 3> Matrix43f;
 
 	template<>
-	int VectorXf::oninit(lua_State *L);
-	template<>
 	int VectorXf::onpush(lua_State *L);
+	template<>
+	int VectorXf::oninit(lua_State *L);
 	template<>
 	int VectorXf::resize(lua_State *L);
 
