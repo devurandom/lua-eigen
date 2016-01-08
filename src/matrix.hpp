@@ -92,13 +92,10 @@ namespace LuaEigen {
 		using Base::dot;
 		using Base::cross;
 
+		Matrix() : Base() {}
 		Matrix(lua_State *L) : Base() {}
 		template<typename OtherDerived>
 		Matrix(const Eigen::MatrixBase<OtherDerived> &o) : Base(o) {}
-		template<typename OtherDerived>
-		Matrix(const Eigen::EigenBase<OtherDerived> &o) : Base(o) {}
-		template<typename OtherDerived>
-		Matrix(const Eigen::ReturnByValue<OtherDerived> &o) : Base(o) {}
 		~Matrix() {}
 
 		template<typename OtherDerived>
@@ -804,6 +801,14 @@ namespace LuaEigen {
 	int MatrixX4f::oninit(lua_State *L);
 	template<>
 	int MatrixX4f::resize(lua_State *L);
+}
+
+namespace Eigen {
+	namespace internal {
+		template <typename _Scalar, int _Rows, int _Cols>
+		struct traits<LuaEigen::Matrix<_Scalar, _Rows, _Cols>>
+		: traits<Matrix<_Scalar, _Rows, _Cols>> {};
+	}
 }
 
 #endif
